@@ -8,6 +8,7 @@
   <style>
     :root {
       --bg-pink: #ffe6f2;
+      --soft-pink: #ffb6d9;
       --text: #ff4d94;
     }
 
@@ -34,7 +35,7 @@
 
     h1 {
       margin-top: 30px;
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       text-align: center;
       text-shadow: 1px 1px 3px #fff;
       animation: fadeInDown 1s ease-out forwards;
@@ -62,25 +63,21 @@
     }
 
     .app {
+      background: rgba(255, 255, 255, 0.5);
+      backdrop-filter: blur(8px);
+      border-radius: 50%;
       width: 140px;
       height: 140px;
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(8px);
-      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.2);
-      cursor: pointer;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      border: 2px solid #ffe1ec;
-      animation: floatIn 1s ease forwards;
-
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 10px;
-
-      /* Heart shape */
-      clip-path: path("M70 130 Q20 80 70 40 Q120 80 70 130 Z");
+      box-shadow: 0 6px 20px rgba(255, 105, 180, 0.2);
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      border: 2px solid #ffe1ec;
+      animation: floatIn 1s ease forwards;
     }
 
     .app:hover {
