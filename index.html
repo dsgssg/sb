@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loading Love OS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', cursive;
+      background: linear-gradient(45deg, #ffd1dc, #ffe4e1, #ffc0cb, #fbd0f5);
+      background-size: 400% 400%;
+      animation: bgShift 20s ease infinite;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      color: #fff;
+      text-align: center;
+    }
+
+    @keyframes bgShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1, h2 {
+      margin: 10px;
+      opacity: 0;
+      animation: fadeInText 1.5s ease-in-out forwards;
+    }
+
+    h1 {
+      font-family: 'Pacifico', cursive;
+      font-size: 2.5rem;
+      color: #fffafc;
+      text-shadow: 2px 2px 4px #ff9ecf;
+      animation-delay: 0.5s;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      color: #fff0f6;
+      text-shadow: 1px 1px 3px #ffa6d6;
+      animation-delay: 2s;
+    }
+
+    @keyframes fadeInText {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .loading-box {
+      width: 80%;
+      max-width: 380px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 30px;
+      overflow: hidden;
+      margin-top: 40px;
+      box-shadow: 0 0 12px #fff1f9;
+    }
+
+    .loading-bar {
+      height: 20px;
+      width: 0%;
+      background: linear-gradient(90deg, #ff69b4, #ff85c1, #ffb6d5);
+      transition: width 0.2s ease;
+    }
+
+    .percent-text {
+      margin-top: 12px;
+      font-size: 1.1rem;
+      color: #fff;
+      opacity: 0;
+      animation: fadeInText 1.5s ease-in-out forwards;
+      animation-delay: 3s;
+    }
+
+    .sparkle {
+      font-size: 1.2rem;
+      animation: twinkle 2s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.6; transform: scale(1); }
+      to { opacity: 1; transform: scale(1.1); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>✨💻 Entering Love OS... 💖</h1>
+  <h2>📂 Preparing Our Memories... ☁️🩷</h2>
+
+  <div class="loading-box">
+    <div class="loading-bar" id="bar"></div>
+  </div>
+  <div class="percent-text sparkle" id="percent">0%</div>
+
+  <script>
+    let percent = 0;
+    const bar = document.getElementById('bar');
+    const text = document.getElementById('percent');
+
+    const interval = setInterval(() => {
+      percent++;
+      bar.style.width = percent + "%";
+      text.innerText = "🔄 Loading: " + percent + "%";
+
+      if (percent === 100) {
+        clearInterval(interval);
+        setTimeout(() => {
+          window.location.href = "page2.html";
+        }, 1000);
+      }
+    }, 50);
+  </script>
+
+</body>
+</html>
