@@ -12,32 +12,34 @@
       font-family: 'Comic Sans MS', cursive;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
       height: 100vh;
       overflow: hidden;
       position: relative;
       color: #ff69b4;
+      text-align: center;
     }
 
     h1 {
       font-size: 2rem;
-      margin-bottom: 10px;
-      animation: fadeIn 2s ease-in-out forwards;
+      margin-top: 25px;
+      animation: fadeIn 1.5s ease-in-out forwards;
       opacity: 0;
     }
 
     .bday-img {
-      width: 100%;
-      max-width: 100%;
+      width: 90%;
+      max-width: 800px;
       height: auto;
-      object-fit: cover;
-      animation: fadeIn 2s ease-in-out forwards 1s;
+      margin: 20px 0;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      animation: fadeIn 1.5s ease-in-out forwards 1s;
       opacity: 0;
     }
 
     .btn {
-      margin-top: -40px;
       padding: 14px 30px;
       font-size: 1.2rem;
       border: none;
@@ -46,7 +48,7 @@
       color: white;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       cursor: pointer;
-      animation: fadeIn 2s ease 2s forwards;
+      animation: fadeIn 1.5s ease-in-out forwards 2s;
       opacity: 0;
       z-index: 10;
     }
@@ -64,7 +66,7 @@
 </head>
 <body>
 
-  <!-- Sweet heading -->
+  <!-- Cute greeting -->
   <h1>👋 Hello Madam Ji... 🥹</h1>
 
   <!-- Birthday image -->
@@ -81,3 +83,4 @@
 
 </body>
 </html>
+
