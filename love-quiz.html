@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Love Quiz for Her ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #ffd6e8, #ffe6f2);
+      font-family: 'Quicksand', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .quiz-container {
+      background: white;
+      border-radius: 30px;
+      padding: 30px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.7s ease-in-out;
+    }
+    .quiz-container.active {
+      display: block;
+    }
+    .question {
+      font-size: 1.6rem;
+      font-family: 'Pacifico', cursive;
+      color: #d63384;
+      margin-bottom: 25px;
+    }
+    .options button {
+      background-color: #ffb6c1;
+      border: none;
+      margin: 10px auto;
+      padding: 14px 20px;
+      border-radius: 50px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      display: block;
+      width: 100%;
+      max-width: 300px;
+    }
+    .options button:hover {
+      background-color: #ff69b4;
+      color: white;
+      transform: scale(1.05);
+    }
+    .next-btn {
+      margin-top: 30px;
+      background: #ff69b4;
+      color: white;
+      padding: 12px 26px;
+      border: none;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .next-btn:hover {
+      background: #ff85c1;
+    }
+    .message-screen,
+    .result-screen {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+      font-family: 'Pacifico', cursive;
+    }
+    .message-screen.active,
+    .result-screen.active {
+      display: block;
+    }
+    .result-screen h2 {
+      font-size: 1.8rem;
+      color: #c2185b;
+    }
+    .reaction-text {
+      margin-top: 15px;
+      color: #c2185b;
+      font-size: 1.1rem;
+      font-weight: bold;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Quiz 1 -->
+<div id="quiz1" class="quiz-container active">
+  <div class="question">Do you remember your past birthday? Did you like it?</div>
+  <div class="options">
+    <button onclick="showReaction(this)">Yes, I did 😊</button>
+    <button onclick="showReaction(this)">Ya, but could be more romantic 🥺</button>
+    <button onclick="showReaction(this)">You are duffer! You could’ve just said that day and proposed me 😤💘</button>
+  </div>
+  <div class="reaction-text" id="reaction1"></div>
+  <button class="next-btn" onclick="nextQuiz('quiz1', 'quiz2')">Next</button>
+</div>
+
+<!-- Quiz 2 -->
+<div id="quiz2" class="quiz-container">
+  <div class="question">Did you love your Valentine gift and enjoy 15 Feb?</div>
+  <div class="options">
+    <button onclick="showReaction(this)">Tension ka mahaul tha</button>
+    <button onclick="showReaction(this)">Maza aya and loved the rose 🌹</button>
+    <button onclick="showReaction(this)">Waiting for that pic? Are you? 😉</button>
+    <button onclick="showReaction(this)">All of the upar</button>
+  </div>
+  <div class="reaction-text" id="reaction2"></div>
+  <button class="next-btn" onclick="nextQuiz('quiz2', 'quiz3')">Next</button>
+</div>
+
+<!-- Quiz 3 -->
+<div id="quiz3" class="quiz-container">
+  <div class="question">337 days... or 8088 hours... Do you love me ya pyaar badh gaya hai?</div>
+  <div class="options">
+    <button onclick="showReaction(this)">Yeh puchhne ki baat hai? Maar khayega 😤</button>
+    <button onclick="showReaction(this)">Mil toh sahi... batata hu kitna pyaar karti hu 😍</button>
+    <button onclick="showReaction(this)">Biwi hu teri 💍</button>
+    <button onclick="showReaction(this)">Tujhe msg karke bataya hu 💬</button>
+  </div>
+  <div class="reaction-text" id="reaction3"></div>
+  <button class="next-btn" onclick="showMessageScreen()">Next</button>
+</div>
+
+<!-- Message Screen -->
+<div id="messageScreen" class="message-screen">
+  <h2>This is the last... and the hardest question ❤️</h2>
+  <p>Answer wisely... your heart might depend on it.</p>
+  <button class="next-btn" onclick="nextQuiz('messageScreen', 'quiz4')">I’m Ready</button>
+</div>
+
+<!-- Quiz 4 -->
+<div id="quiz4" class="quiz-container">
+  <div class="question">Meri girl wali friend banegi?</div>
+  <div class="options">
+    <button onclick="showReaction(this)">Pitega tu — pahle se hi hu teri GF 😤</button>
+    <button onclick="showReaction(this)">Batati hu rukh tujhe 😒</button>
+    <button onclick="showReaction(this)">Biwi hu teri 😎💍</button>
+    <button onclick="showReaction(this)">GF se bhi badh ke banungi teri ❤️‍🔥</button>
+  </div>
+  <div class="reaction-text" id="reaction4"></div>
+  <button class="next-btn" onclick="showResult()">Finish</button>
+</div>
+
+<!-- Final Screen -->
+<div id="resultScreen" class="result-screen">
+  <h2>Tujhse toh har sawaal haar gaya main 😍❤️</h2>
+  <p>Thanks for playing, meri jaan. You already won me long ago 🌟</p>
+  <br>
+  <button class="next-btn" onclick="goToMainPage()">Back to Heart OS</button>
+</div>
+
+<!-- Script -->
+<script>
+function nextQuiz(currentId, nextId) {
+  document.getElementById(currentId).classList.remove('active');
+  document.getElementById(nextId).classList.add('active');
+}
+
+function showMessageScreen() {
+  document.getElementById('quiz3').classList.remove('active');
+  document.getElementById('messageScreen').classList.add('active');
+}
+
+function showResult() {
+  document.getElementById('quiz4').classList.remove('active');
+  document.getElementById('resultScreen').classList.add('active');
+}
+
+function showReaction(btn) {
+  const container = btn.closest('.quiz-container');
+  const containerId = container.id;
+  let reactionText = "";
+
+  if (containerId === "quiz1") {
+    reactionText = "Baba re baba 😳";
+  } else if (containerId === "quiz2") {
+    reactionText = "I knew that 😎";
+  } else if (containerId === "quiz3") {
+    reactionText = "Salam maam 🙏";
+  } else if (containerId === "quiz4") {
+    reactionText = "Tumi toh pro 💖";
+  }
+
+  const id = containerId.replace("quiz", "reaction");
+  document.getElementById(id).innerText = reactionText;
+}
+
+function goToMainPage() {
+  window.location.href = "../index.html"; // update this path if your main page is elsewhere
+}
+</script>
+
+</body>
+</html>
