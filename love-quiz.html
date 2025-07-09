@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Love Quiz for Her ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Love Quiz for You 💖</title>
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(120deg, #ffd6e8, #ffe6f2);
+      background: linear-gradient(120deg, #ffe0f0, #ffd6e8);
       font-family: 'Quicksand', sans-serif;
       display: flex;
       align-items: center;
@@ -29,9 +29,7 @@
       display: none;
       animation: fadeIn 0.7s ease-in-out;
     }
-    .quiz-container.active {
-      display: block;
-    }
+    .quiz-container.active { display: block; }
     .question {
       font-size: 1.6rem;
       font-family: 'Pacifico', cursive;
@@ -67,18 +65,14 @@
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     }
-    .next-btn:hover {
-      background: #ff85c1;
-    }
-    .message-screen,
-    .result-screen {
+    .next-btn:hover { background: #ff85c1; }
+    .message-screen, .result-screen {
       display: none;
       text-align: center;
       padding: 40px 20px;
       font-family: 'Pacifico', cursive;
     }
-    .message-screen.active,
-    .result-screen.active {
+    .message-screen.active, .result-screen.active {
       display: block;
     }
     .result-screen h2 {
@@ -127,7 +121,7 @@
 
 <!-- Quiz 3 -->
 <div id="quiz3" class="quiz-container">
-  <div class="question">337 days... or 8088 hours... Do you love me ya pyaar badh gaya hai?</div>
+  <div class="question">337 days, 11 months, or 8088 hours... Do you love me more now?</div>
   <div class="options">
     <button onclick="showReaction(this)">Yeh puchhne ki baat hai? Maar khayega 😤</button>
     <button onclick="showReaction(this)">Mil toh sahi... batata hu kitna pyaar karti hu 😍</button>
@@ -138,7 +132,7 @@
   <button class="next-btn" onclick="showMessageScreen()">Next</button>
 </div>
 
-<!-- Message Screen -->
+<!-- Transition Message -->
 <div id="messageScreen" class="message-screen">
   <h2>This is the last... and the hardest question ❤️</h2>
   <p>Answer wisely... your heart might depend on it.</p>
@@ -158,7 +152,7 @@
   <button class="next-btn" onclick="showResult()">Finish</button>
 </div>
 
-<!-- Final Screen -->
+<!-- Result Screen -->
 <div id="resultScreen" class="result-screen">
   <h2>Tujhse toh har sawaal haar gaya main 😍❤️</h2>
   <p>Thanks for playing, meri jaan. You already won me long ago 🌟</p>
@@ -184,30 +178,22 @@ function showResult() {
 }
 
 function showReaction(btn) {
+  const reactions = [
+    "1. Baba re baba 😳",
+    "2. I knew that 😎",
+    "3. Salam maam 🙏",
+    "4. Tumi toh pro 💖"
+  ];
+  const reactionText = reactions[Math.floor(Math.random() * reactions.length)];
   const container = btn.closest('.quiz-container');
-  const containerId = container.id;
-  let reactionText = "";
-
-  if (containerId === "quiz1") {
-    reactionText = "Baba re baba 😳";
-  } else if (containerId === "quiz2") {
-    reactionText = "I knew that 😎";
-  } else if (containerId === "quiz3") {
-    reactionText = "Salam maam 🙏";
-  } else if (containerId === "quiz4") {
-    reactionText = "Tumi toh pro 💖";
-  }
-
-  const id = containerId.replace("quiz", "reaction");
+  const id = container.id.replace('quiz', 'reaction');
   document.getElementById(id).innerText = reactionText;
 }
 
-<script>
-  function goToMainPage() {
-    window.location.href = "https://dsgssg.github.io/sb/page3.html";
-  }
+function goToMainPage() {
+  window.location.href = "https://dsgssg.github.io/sb/page3.html";
+}
 </script>
-
 
 </body>
 </html>
