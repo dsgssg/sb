@@ -2,90 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cut the Cake 🎂</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      font-family: 'Comic Sans MS', cursive;
       background: linear-gradient(135deg, #ffe6f2, #ffd6e8);
+      font-family: 'Comic Sans MS', cursive;
       overflow: hidden;
       display: flex;
-      justify-content: center;
-      align-items: center;
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
       min-height: 100vh;
       position: relative;
     }
 
     h1 {
       color: #ff4d94;
-      margin-top: 20px;
+      margin-top: 10px;
       font-size: 2rem;
-      text-align: center;
       animation: fadeIn 1s ease-in-out;
     }
 
-    .cake {
-      width: 220px;
+    .cake-container {
+      position: relative;
+      width: 250px;
       height: auto;
-      margin-top: 30px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
+      margin-top: 20px;
     }
 
-    .cake:hover {
-      transform: scale(1.05);
+    .cake {
+      width: 100%;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .knife {
+      position: absolute;
+      top: -200px;
+      left: 50%;
+      width: 120px;
+      transform: translateX(-50%) rotate(45deg);
+      opacity: 0;
+      transition: top 1s ease, opacity 0.5s ease;
+      z-index: 2;
+    }
+
+    .knife.active {
+      top: 50px;
+      opacity: 1;
+    }
+
+    .slice {
+      position: absolute;
+      width: 80px;
+      left: 80px;
+      top: 90px;
+      opacity: 0;
+      transform: scale(0.8);
+      z-index: 3;
+      transition: transform 2s ease-in-out, opacity 1s ease-in-out;
+    }
+
+    .slice.float {
+      opacity: 1;
+      transform: translateY(-180px) scale(1.2);
     }
 
     .message {
-      margin-top: 20px;
+      margin-top: 30px;
       color: #d9006c;
       font-size: 1.2rem;
       text-align: center;
       opacity: 0;
-      transition: opacity 1s ease;
+      transition: opacity 1.5s ease;
     }
 
-    .hearts {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .heart {
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      background: url('https://emojiapi.dev/api/v1/2764/128.png') no-repeat center/contain;
-      animation: float 5s linear infinite;
-    }
-
-    @keyframes float {
-      0% {
-        transform: translateY(100vh) scale(0.5);
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-20vh) scale(1.2);
-        opacity: 0;
-      }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .message.show {
+      opacity: 1;
     }
 
     .back-btn {
-      position: absolute;
-      bottom: 20px;
+      margin-top: 40px;
       background: #ff69b4;
       color: white;
       padding: 12px 24px;
@@ -99,44 +99,54 @@
     .back-btn:hover {
       background: #ff85c1;
     }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
 
-  <h1>🎂 Time to Cut the Cake!</h1>
+  <h1>🎂 Cut the Cake, Madam Ji</h1>
 
-  <img src="https://i.imgur.com/NrlzJ0P.png" alt="Cake" class="cake" onclick="cutCake()" />
-
-  <div class="message" id="message">
-    🥳 Yay! You cut the cake!<br>
-    May every slice bring you love and sweetness, Shreeya 💝
+  <div class="cake-container">
+    <img src="https://i.imgur.com/NrlzJ0P.png" class="cake" id="cake" alt="Cake" />
+    <img src="https://i.imgur.com/x0zOmYm.png" class="knife" id="knife" alt="Knife" />
+    <img src="https://i.imgur.com/ruA2S8Z.png" class="slice" id="slice" alt="Cake Slice" />
   </div>
 
-  <div class="hearts" id="hearts"></div>
+  <div class="message" id="message">
+    🥹 Here's your slice, my love. May it be as sweet as you 💖
+  </div>
 
   <button class="back-btn" onclick="goBack()">← Back to Heart OS</button>
 
   <script>
     function cutCake() {
-      document.getElementById("message").style.opacity = 1;
+      const knife = document.getElementById("knife");
+      const slice = document.getElementById("slice");
+      const message = document.getElementById("message");
 
-      // Create floating hearts
-      const container = document.getElementById("hearts");
-      for (let i = 0; i < 15; i++) {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = 3 + Math.random() * 3 + "s";
-        container.appendChild(heart);
+      // Show knife
+      knife.classList.add("active");
 
-        // Remove after animation
-        setTimeout(() => heart.remove(), 6000);
-      }
+      // Then drop cake slice after delay
+      setTimeout(() => {
+        slice.classList.add("float");
+      }, 1200);
+
+      // Show message after slice floats
+      setTimeout(() => {
+        message.classList.add("show");
+      }, 2800);
     }
 
     function goBack() {
       window.location.href = "page3.html";
     }
+
+    document.getElementById("cake").addEventListener("click", cutCake);
   </script>
 
 </body>
