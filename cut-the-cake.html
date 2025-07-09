@@ -35,7 +35,6 @@
 
     .cake {
       width: 100%;
-      transition: transform 0.3s ease;
       cursor: pointer;
     }
 
@@ -43,7 +42,7 @@
       position: absolute;
       top: -200px;
       left: 50%;
-      width: 120px;
+      width: 100px;
       transform: translateX(-50%) rotate(45deg);
       opacity: 0;
       transition: top 1s ease, opacity 0.5s ease;
@@ -51,15 +50,15 @@
     }
 
     .knife.active {
-      top: 50px;
+      top: 40px;
       opacity: 1;
     }
 
     .slice {
       position: absolute;
       width: 80px;
-      left: 80px;
-      top: 90px;
+      left: 85px;
+      top: 100px;
       opacity: 0;
       transform: scale(0.8);
       z-index: 3;
@@ -111,9 +110,9 @@
   <h1>🎂 Cut the Cake, Madam Ji</h1>
 
   <div class="cake-container">
-    <img src="https://i.imgur.com/NrlzJ0P.png" class="cake" id="cake" alt="Cake" />
-    <img src="https://i.imgur.com/x0zOmYm.png" class="knife" id="knife" alt="Knife" />
-    <img src="https://i.imgur.com/ruA2S8Z.png" class="slice" id="slice" alt="Cake Slice" />
+    <img src="assets/cake.png" class="cake" id="cake" alt="Cake" />
+    <img src="assets/knife.png" class="knife" id="knife" alt="Knife" />
+    <img src="assets/slice.png" class="slice" id="slice" alt="Cake Slice" />
   </div>
 
   <div class="message" id="message">
@@ -128,15 +127,12 @@
       const slice = document.getElementById("slice");
       const message = document.getElementById("message");
 
-      // Show knife
       knife.classList.add("active");
 
-      // Then drop cake slice after delay
       setTimeout(() => {
         slice.classList.add("float");
       }, 1200);
 
-      // Show message after slice floats
       setTimeout(() => {
         message.classList.add("show");
       }, 2800);
