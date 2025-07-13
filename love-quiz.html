@@ -178,22 +178,20 @@ function showResult() {
 }
 
 function showReaction(btn) {
-  const reactions = [
-    "1. Baba re baba 😳",
-    "2. I knew that 😎",
-    "3. Salam maam 🙏",
-    "4. Tumi toh pro 💖"
-  ];
-  const reactionText = reactions[Math.floor(Math.random() * reactions.length)];
   const container = btn.closest('.quiz-container');
   const id = container.id.replace('quiz', 'reaction');
-  document.getElementById(id).innerText = reactionText;
+
+  const fixedReactions = {
+    "reaction1": "💥 Baba re baba 😳",
+    "reaction2": "🧠 I knew that 😎",
+    "reaction3": "🐥 Gulu gulu to you 😚",
+    "reaction4": "😘 Yeh le kissi 💋"
+  };
+
+  document.getElementById(id).innerText = fixedReactions[id] || "";
 }
 
 function goToMainPage() {
   window.location.href = "https://dsgssg.github.io/sb/page3.html";
 }
 </script>
-
-</body>
-</html>
