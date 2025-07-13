@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Timeline 🍬</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Timeline 🍬</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     body {
       margin: 0;
@@ -22,7 +22,7 @@
       position: relative;
       max-width: 900px;
       margin: 0 auto;
-      padding: 2rem 1rem;
+      padding: 2rem 1rem 5rem;
     }
     .timeline::after {
       content: '';
@@ -96,11 +96,34 @@
         left: -10px;
       }
     }
+    .back-btn {
+      display: flex;
+      justify-content: center;
+      margin: 2rem auto 4rem;
+    }
+    .back-btn a {
+      text-decoration: none;
+      background-color: #ff69b4;
+      color: white;
+      padding: 0.8rem 1.6rem;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: 0.3s ease;
+    }
+    .back-btn a:hover {
+      background-color: #e055a1;
+    }
   </style>
 </head>
 <body>
-  <div class="title">🍬 Timeline 🍬</div>
+  <div class="title">🍬 Our Timeline 🍬</div>
   <div class="timeline" id="timeline"></div>
+
+  <div class="back-btn">
+    <a href="../index.html">← Return to Love OS</a>
+  </div>
 
   <script>
     const rawText = `4th july 2025 ; meet you after 3 months and 18 days , quite long period of time without you lekin usdin chahe mai jayeda baat na kar paya par tujhe dheka or hi kiya pata hai dil mai alag sukkon tha
@@ -139,3 +162,4 @@ i dont rember some dates: but jese tune ak baar haath pakra tha the warmth of yo
   </script>
 </body>
 </html>
+
