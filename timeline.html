@@ -1,43 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Our Timeline 🍬</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Candy Crush Timeline 🍬</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       font-family: 'Nunito', sans-serif;
-      background: linear-gradient(to bottom, #ffe4f1, #ffffff);
+      background: linear-gradient(to bottom, #fff0f5, #ffffff);
     }
-
-    .instruction {
+    .title {
       text-align: center;
       padding: 1rem;
-      font-size: 1.2rem;
-      background: #ffe4f1;
-      color: #a94464;
-      border-bottom: 2px dashed #ffb6c1;
-    }
-
-    .birthday-wish {
-      background: #fff0f5;
-      color: #d63384;
-      padding: 1.5rem;
-      text-align: center;
-      font-size: 1.3rem;
+      font-size: 1.6rem;
       font-weight: bold;
-      border-bottom: 3px dashed #ff69b4;
+      color: #d63384;
     }
-
     .timeline {
       position: relative;
       max-width: 900px;
       margin: 0 auto;
       padding: 2rem 1rem;
     }
-
     .timeline::after {
       content: '';
       position: absolute;
@@ -48,27 +34,23 @@
       left: 50%;
       margin-left: -2px;
     }
-
     .entry {
       padding: 1.5rem;
       position: relative;
       background: #fff;
       border-radius: 12px;
       width: 40%;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      margin: 1rem 0;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      margin: 2rem 0;
       animation: fadeIn 0.8s ease-in;
       white-space: pre-line;
     }
-
     .entry.left {
       left: 0;
     }
-
     .entry.right {
       left: 60%;
     }
-
     .entry::after {
       content: '';
       position: absolute;
@@ -79,22 +61,18 @@
       border-radius: 50%;
       z-index: 1;
     }
-
     .entry.left::after {
       right: -10px;
     }
-
     .entry.right::after {
       left: -10px;
     }
-
     .date {
       font-weight: bold;
       font-size: 1.1rem;
       color: #ff1493;
       margin-bottom: 0.5rem;
     }
-
     @keyframes fadeIn {
       from {
         opacity: 0;
@@ -105,7 +83,6 @@
         transform: translateY(0);
       }
     }
-
     @media screen and (max-width: 768px) {
       .timeline::after {
         left: 10px;
@@ -122,41 +99,43 @@
   </style>
 </head>
 <body>
-  <div class="instruction">🍬 Scroll down to relive our sweetest memories...</div>
-  <div class="birthday-wish">🎉 Happy 18th Birthday Shreeya! Wishing you love, laughter, and all the dreams come true 💖</div>
-  <div class="timeline"></div>
+  <div class="title">🍬 Our Candy Crush Style Timeline 🍬</div>
+  <div class="timeline" id="timeline"></div>
 
   <script>
-    const entries = [
-      { date: '4 July 2025', text: meet you after 3 months and 18 days , quite long period of time without you lekin usdin chahe mai jayeda baat na kar paya par tujhe dheka or hi kiya pata hai dil mai alag sukkon tha },
-      { date: '15 Feb 2025', text: our 1st valentine ya it was farewell but as of my first valantine i tried to love and respect and wish to do it forefever , ohh ha meri valentine bani rehna },
-      { date: '10 Feb 2025', text: wese din toh kafi naughty tha or paintaing class mai maza jarur aya mmai wapas karna chaunga 😂😉 or ha bohot sari photes school ke bad },
-      { date: '1 Jan 2025', text: i personally need this back to love you like crazy i know you enjoyed and we went to anotherr level pst 3 still waitaing someday },
-      { date: '30 Dec 2024', text: went on first date with you , bike ride mai maza jarur aya or haa arop sach tha paas bulane ka lekin tu gir jjati toh! sefty+mera naughty mind =💋 , bas ham gum hi toh gaye the lekin hamare bachee wapas a bhi toh gaye the lene },
-      { date: '27 Dec 2024', text: milne aya tha mil bhi liye or haa woh photo dil ke karib hai tere saath pahela photo delete karne ko mat bola kar wese bhi kitni achee lagti bachee wala sakal banna rakha tha },
-      { date: '1 Dec 2024', text: THE OFFICIAL ENGAGEMENT   i think you remembered that day when i told ajj toh tera dil tutega and then tujhe ring ke saath surprise kiya tha you know what i love your happy face },
-      { date: '8 Nov 2024', text: pentavalent , you told me onnce you just wanted more and ha mujhe bhi or karna tha but it fun to see you face lalam laal and specially that one front bench kissi when you were pusshing me , can we again do that 😘 },
-      { date: '6 Nov 2024', text: we had our first kissi on lips chotuku sa tha lekin experience kafi achaa tha and those sweet lips i waana taste them again (jaldi aye agla saal) ya it was an challenge for you you came from lips to gaal lekin mai hu na hamesha 😂😁, uske baad dip ka kissa chala tha },
-      { date: '4 Nov 2024', text: butterfly pendent meri pasand umid karta hu tujhe pasand ayi hogi woh alag baat hai tune mmakri ka hatya kiya tha usdin 😂 or ha tujhe pehana cahata tha lekin ajj tak ak baar bhi yeh sampna ho na paya ak baar mila tha lekin woh kholna nahi aya toh kabutar jindabad . but ha pendent pehanana jarur tha agli baar yaad karke jara moka de dena 🙏 },
-      { date: '11 Nov 2024', text: ha yeh wahi din hai jo tujhe bhi yaad hai or mujhe bhi tera karan pe gussa kam aya and ha thankyou usdin kadam lene ke liye tabhi toh ham yaha hai },
-      { date: '12 Oct 2024', text: ladhai hamne kafi ki hai lekin wapas ana best part raha hai ajj tak or ha unn sabhi galtiyon ke liye bhot mafi and ha iss din bhi ladhai hui thi lekin ladhai thoda ajib tha or haa ladhai toh ati jati rehegi , tu mere saath hamesha rahiyo bad baki ak saath milke kar lenge saab },
-      { date: '4 Sept 2024', text: is din ke bare mai, mai jitna sochta hu mujhe achaa lagta hai woh teachers day se pahela din or bio period mai bolna " kiya mujhe tiffin period mai 5 min mil sakta hai" tu bola tha tu samaj chuki thi par mere liye toh naya tha , upar se haath dhone ke baad chakle chemsitry lab ke samne house dress mai woh tere samne confess karna ki ha tu meri crush hai or muhe yeh tujhe bohot pahale se bolna tha or uske baad expression less face ka curiosity or uske baad yeh janna ki tu toh dance kartein hue ja rahi thi or pure raste yeh sochna aj woh din a hi gaya i know mmaine confuse kiya tha kiyuki mai khud tha or mujhe bas apni maan ki kaheni thi , jo bhi jho 1 saal hone wala excited for your fav soitan bachaa ke saath 1 saal ke liye , mai kafi excited hu 1 saal ke liye or woh lig o boltein the bhai baas board tak rukh galat proof karne mai maza ata hai yaar hamesha mera saath dti reehna  abhi hame apni memories ki or lambhi or never ending list banani hai },
-      { date: '5 Sept 2024', text: sarmake bohot bhagi thi tu or tera woh lalam laal sakal or mujhe dhekke bhagna baap r baap ha baat ho hi gayi thi last mai or jo sach tha ajj woh dhikta hoga tujhe baat mai pahale bhi karna chahata tha lekin kar na paya },
-      { date: '7 Aug 2024', text: ha bhoot jsa aya jarur tha woh laal pen dene lekin hammesha s fatti thi tujhse baat karne mai toh mai kuch kar nahi sakta lekin uske baad jis din tum dono ne mujhe bulaya tha or kaha tha logo ko lagta hai hamare bich chalra mera maan toh bolra tha ki log sahi hai lekin tere samne kese bolta orr ha woh haanth ka isara you and me never forgotable },
-      { date: '12 June 2024', text: thik  ajj se ak saal pahale (ohh tujh toh yh badme milega surprise 😎) woh eye contact physics lab mai jo adrija ne dhek liya tha mujhe nahi pata tujhe yaad hai ya nahi par usdin mai ka bolu sharam was for real , meri sakal dhekke monish ne pucha tha bhai kiya hua usi din pakda jata lekin jo bhi ho alag toh bohot kuch hua hai },
-      { date: 'Somewhere special', text: but jese tune ak baar haath pakra tha the warmth of you aj tak nahi bhula hu chahe maine jitni bhi baat ki ho mai woh bhi nahi bhula hu na ma bhula hu woh garden wala walk na mai yeh bhula hu jab tune ak bar bola tha itna relaxed hai game kese khl raha (maths practical exam) ha mai janta hu tu bohot kuch bhul chuki hai lekin mai kuch nahi bhulna sakta kabhi nahi tere saath bitaya hua har har paal mai jindibhar yaad rakhna cahata hu or rakunga bohot kuch hai jo chut gaya hai kiyuki saab include karna thoda muskil hai but maine try kiya agar tun padha hoga toh tujhe kafi chiz yaad ayi hogi \n\nWishing you a very happy 18th bday of your life and may you suceed with all you want ❤️ }
-    ];
+    const rawText = `4th july 2025 ; meet you after 3 months and 18 days , quite long period of time without you lekin usdin chahe mai jayeda baat na kar paya par tujhe dheka or hi kiya pata hai dil mai alag sukkon tha
+15feb 2025 ; our 1st valentine ya it was farewell but as of my first valantine i tried to love and respect and wish to do it forefever , ohh ha meri valentine bani rehna 
+10 feb 2025 ; wese din toh kafi naughty tha or paintaing class mai maza jarur aya mmai wapas karna chaunga 😂😉 or ha bohot sari photes school ke bad
+1 january 2025 ; i personally need this back to love you like crazy i know you enjoyed and we went to anotherr level pst 3 still waitaing someday
+30th dec 2024 : went on first date with you , bike ride mai maza jarur aya or haa arop sach tha paas bulane ka lekin tu gir jjati toh! sefty+mera naughty mind =💋 , bas ham gum hi toh gaye the lekin hamare bachee wapas a bhi toh gaye the lene
+dec 27 2024 milne aya tha mil bhi liye or haa woh photo dil ke karib hai tere saath pahela photo delete karne ko mat bola kar wese bhi kitni achee lagti bachee wala sakal banna rakha tha
+dec 1 2024: THE OFFICIAL ENGAGEMENT   i think you remembered that day when i told ajj toh tera dil tutega and then tujhe ring ke saath surprise kiya tha you know what i love your happy face
+8th nov 2024 : pentavalent , you told me onnce you just wanted more and ha mujhe bhi or karna tha but it fun to see you face lalam laal and specially that one front bench kissi when you were pusshing me , can we again do that 😘
+6 nov 2024: we had our first kissi on lips chotuku sa tha lekin experience kafi achaa tha and those sweet lips i waana taste them again (jaldi aye agla saal) ya it was an challenge for you you came from lips to gaal lekin mai hu na hamesha 😂😁, uske baad dip ka kissa chala tha
+12 oct 2024: ladhai hamne kafi ki hai lekin wapas ana best part raha hai ajj tak or ha unn sabhi galtiyon ke liye bhot mafi and ha iss din bhi ladhai hui thi lekin ladhai thoda ajib tha or haa ladhai toh ati jati rehegi , tu mere saath hamesha rahiyo bad baki ak saath milke kar lenge saab
+4 november 2024 : butterfly pendent meri pasand umid karta hu tujhe pasand ayi hogi woh alag baat hai tune mmakri ka hatya kiya tha usdin 😂 or ha tujhe pehana cahata tha lekin ajj tak ak baar bhi yeh sampna ho na paya ak baar mila tha lekin woh kholna nahi aya toh kabutar jindabad . but ha pendent pehanana jarur tha agli baar yaad karke jara moka de dena 🙏
+11th november 2024: ha yeh wahi din hai jo tujhe bhi yaad hai or mujhe bhi tera karan pe gussa kam aya and ha thankyou usdin kadam lene ke liye tabhi toh ham yaha hai
+5sept 2024 : sarmake bohot bhagi thi tu or tera woh lalam laal sakal or mujhe dhekke bhagna baap r baap ha baat ho hi gayi thi last mai or jo sach tha ajj woh dhikta hoga tujhe baat mai pahale bhi karna chahata tha lekin kar na paya
+4sept 2024: is din ke bare mai, mai jitna sochta hu mujhe achaa lagta hai woh teachers day se pahela din or bio period mai bolna " kiya mujhe tiffin period mai 5 min mil sakta hai" tu bola tha tu samaj chuki thi par mere liye toh naya tha , upar se haath dhone ke baad chakle chemsitry lab ke samne house dress mai woh tere samne confess karna ki ha tu meri crush hai or muhe yeh tujhe bohot pahale se bolna tha or uske baad expression less face ka curiosity or uske baad yeh janna ki tu toh dance kartein hue ja rahi thi or pure raste yeh sochna aj woh din a hi gaya i know mmaine confuse kiya tha kiyuki mai khud tha or mujhe bas apni maan ki kaheni thi , jo bhi jho 1 saal hone wala excited for your fav soitan bachaa ke saath 1 saal ke liye , mai kafi excited hu 1 saal ke liye or woh lig o boltein the bhai baas board tak rukh galat proof karne mai maza ata hai yaar hamesha mera saath dti reehna  abhi hame apni memories ki or lambhi or never ending list banani hai
+7th august 2024: ha bhoot jsa aya jarur tha woh laal pen dene lekin hammesha s fatti thi tujhse baat karne mai toh mai kuch kar nahi sakta lekin uske baad jis din tum dono ne mujhe bulaya tha or kaha tha logo ko lagta hai hamare bich chalra mera maan toh bolra tha ki log sahi hai lekin tere samne kese bolta orr ha woh haanth ka isara you and me never forgotable
+12 june 2024 : thik  ajj se ak saal pahale (ohh tujh toh yh badme milega surprise 😎) woh eye contact physics lab mai jo adrija ne dhek liya tha mujhe nahi pata tujhe yaad hai ya nahi par usdin mai ka bolu sharam was for real , meri sakal dhekke monish ne pucha tha bhai kiya hua usi din pakda jata lekin jo bhi ho alag toh bohot kuch hua hai
+i dont rember some dates: but jese tune ak baar haath pakra tha the warmth of you aj tak nahi bhula hu chahe maine jitni bhi baat ki ho mai woh bhi nahi bhula hu na ma bhula hu woh garden wala walk na mai yeh bhula hu jab tune ak bar bola tha itna relaxed hai game kese khl raha (maths practical exam) ha mai janta hu tu bohot kuch bhul chuki hai lekin mai kuch nahi bhulna sakta kabhi nahi tere saath bitaya hua har har paal mai jindibhar yaad rakhna cahata hu or rakunga bohot kuch hai jo chut gaya hai kiyuki saab include karna thoda muskil hai but maine try kiya agar tun padha hoga toh tujhe kafi chiz yaad ayi hogi\n\nWishing you a very happy 18th bday of your life and may you suceed with all you want ❤️`;
 
-    const container = document.querySelector('.timeline');
+    const container = document.getElementById("timeline");
+    const entries = rawText.split(/(?<=\n)/g);
 
-    entries.forEach((entry, index) => {
-      const div = document.createElement('div');
-      div.className = entry ${index % 2 === 0 ? 'left' : 'right'};
-      div.innerHTML = <div class="date">${entry.date}</div><div>${entry.text}</div>;
+    let side = true;
+    entries.forEach((entry) => {
+      const [dateRaw, ...rest] = entry.split(/[:;,-]/);
+      const date = dateRaw.trim();
+      const text = entry.replace(dateRaw, '').trim();
+      if (text.length === 0) return;
+      const div = document.createElement("div");
+      div.className = `entry ${side ? "left" : "right"}`;
+      div.innerHTML = `<div class="date">${date}</div><div>${text}</div>`;
       container.appendChild(div);
+      side = !side;
     });
   </script>
 </body>
 </html>
-
-
