@@ -36,6 +36,7 @@
     .cake {
       width: 100%;
       cursor: pointer;
+      animation: pulse 2s infinite ease-in-out; /* New: Pulse animation */
     }
 
     .knife {
@@ -52,6 +53,7 @@
     .knife.active {
       top: 40px;
       opacity: 1;
+      animation: knifeWiggle 0.5s ease-in-out forwards 1s; /* Enhanced: Wiggle after dropping */
     }
 
     .slice {
@@ -68,6 +70,24 @@
     .slice.float {
       opacity: 1;
       transform: translateY(-180px) scale(1.2);
+      animation: sparkle 1s ease-out forwards; /* New: Sparkle animation */
+    }
+
+    .slice::after { /* New: Sparkle effect pseudo-element */
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, #fff, transparent 60%);
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0);
+    }
+
+    .slice.float::after {
+      animation: sparkleEffect 0.8s ease-out 0.5s forwards;
     }
 
     .message {
@@ -81,6 +101,7 @@
 
     .message.show {
       opacity: 1;
+      animation: messageBounce 0.8s ease-out forwards; /* Enhanced: Message bounce */
     }
 
     .back-btn {
@@ -102,6 +123,33 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse { /* New: Cake pulse */
+      0% { transform: scale(1); }
+      50% { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+
+    @keyframes knifeWiggle { /* New: Knife wiggle */
+      0% { transform: translateX(-50%) rotate(45deg); }
+      25% { transform: translateX(-50%) rotate(40deg); }
+      50% { transform: translateX(-50%) rotate(50deg); }
+      75% { transform: translateX(-50%) rotate(42deg); }
+      100% { transform: translateX(-50%) rotate(45deg); }
+    }
+
+    @keyframes sparkleEffect { /* New: Sparkle animation */
+      0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+      50% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+    }
+
+    @keyframes messageBounce { /* New: Message bounce */
+      0% { opacity: 0; transform: translateY(20px); }
+      40% { opacity: 1; transform: translateY(-10px); }
+      70% { transform: translateY(5px); }
+      100% { transform: translateY(0); }
     }
   </style>
 </head>
@@ -127,7 +175,15 @@
       const slice = document.getElementById("slice");
       const message = document.getElementById("message");
 
-      knife.classList.add("active");
+      // Reset for re-cutting
+      knife.classList.remove("active");
+      slice.classList.remove("float");
+      message.classList.remove("show");
+
+      // Small delay before adding active to allow reset
+      setTimeout(() => {
+        knife.classList.add("active");
+      }, 50);
 
       setTimeout(() => {
         slice.classList.add("float");
@@ -147,4 +203,3 @@
 
 </body>
 </html>
-
