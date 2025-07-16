@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Shreeya! ❤️</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Updated Google Fonts import for Playfair Display and Dancing Script -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom CSS for page-turning effect and specific styling */
+        body {
+            font-family: 'Playfair Display', serif; /* Changed main body font */
+            /* More vibrant, multi-stop gradient background */
+            background: linear-gradient(135deg, #fce3e7, #e0f2f7, #f0e6f2); /* Soft pink, light blue, light purple */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Prevent scroll issues with 3D transforms */
+            color: #334155; /* Dark slate text */
+            animation: backgroundPan 20s linear infinite alternate; /* Subtle background animation */
+            background-size: 200% 200%; /* Make background larger for panning */
+        }
+
+        /* Keyframes for background panning */
+        @keyframes backgroundPan {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .card-container {
+            perspective: 1800px; /* Increased perspective for more depth */
+            position: relative;
+            width: 90vw; /* Responsive width */
+            max-width: 800px; /* Max width for larger screens */
+            height: 70vh; /* Responsive height */
+            max-height: 600px; /* Max height */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .book {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 1s ease-in-out;
+            border-radius: 1rem; /* Rounded corners for the book */
+            /* Enhanced book background with a subtle texture and richer color */
+            background: linear-gradient(145deg, #ffe0b2, #ffcc80); /* Warm, inviting gradient */
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4), /* Stronger main shadow */
+                        inset 0 0 20px rgba(255, 255, 255, 0.2); /* Inner highlight */
+            display: flex; /* Use flex to position left/right pages */
+            overflow: hidden; /* Ensure content stays within rounded corners */
+        }
+
+        .book-spine {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 25px; /* Slightly wider spine */
+            /* Richer, more defined spine gradient */
+            background: linear-gradient(to right, #a0522d, #8b4513, #a0522d); /* SaddleBrown tones */
+            transform: translateX(-50%);
+            border-radius: 0.5rem;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.3); /* Deeper inner shadow */
+            z-index: 15; /* Above pages, but below buttons */
+        }
+
+        .page {
+            position: absolute;
+            width: 50%; /* Half the book width for each page */
+            height: 100%;
+            top: 0;
+            right: 0; /* Pages start on the right side */
+            transform-origin: left center; /* Pivot point for the flip */
+            transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 0.8s ease, background-color 0.8s ease; /* Smooth flip animation and shadow */
+            backface-visibility: hidden; /* Hide back during flip */
+            background-color: #ffffff; /* White page background */
+            border: 1px solid #e2e8f0; /* Light border for pages */
+            box-shadow: -2px 0 8px rgba(0, 0, 0, 0.08); /* Subtle shadow for unflipped pages */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 1.5rem;
+            box-sizing: border-box;
+            border-radius: 0.5rem; /* Slight rounding for page corners */
+            overflow-y: auto; /* Enable scrolling for long content */
+        }
+
+        /* Initial state of pages */
+        .page:nth-child(even) { /* Left pages */
+            left: 0;
+            right: auto;
+            transform-origin: right center;
+            border-radius: 0.5rem;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .page-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1rem;
+            opacity: 0; /* Start hidden for fade-in */
+            transform: translateY(10px); /* Start slightly below for slide-up */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out; /* Animation for content */
+        }
+
+        .page.active .page-content {
+            opacity: 1; /* Fade in when active */
+            transform: translateY(0);
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        /* Page flip classes */
+        .flipped {
+            transform: rotateY(-180deg) translateZ(2px); /* Lift slightly during flip */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25), inset 0 0 50px rgba(0, 0, 0, 0.1); /* Stronger shadow + inner shadow for back of page */
+            background-color: #f8f8f8; /* Slightly off-white for the back of the page */
+        }
+        /* When a page is flipped, the next page should also have a shadow */
+        .page.flipped + .page {
+            box-shadow: -10px 0 20px rgba(0, 0, 0, 0.15); /* Shadow cast by the flipped page */
+        }
+
+        /* Z-index management for pages */
+        /* Pages that are not yet flipped should stack from bottom up */
+        .page:not(.flipped) {
+            z-index: 1; /* Default z-index */
+        }
+        /* The current page and the one being flipped should have higher z-index */
+        .page.active {
+            z-index: 5;
+        }
+        .page.flipping { /* Class added by JS during flip */
+            z-index: 10;
+        }
+
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 9999px; /* Fully rounded */
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #64748b; /* Slate gray */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s, transform 0.3s;
+            z-index: 20; /* Above pages */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 3rem;
+            height: 3rem;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(255, 255, 255, 1);
+            color: #475569;
+            transform: translateY(-50%) scale(1.1); /* Slightly larger on hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+        }
+
+        .nav-button:active {
+            transform: translateY(-50%) scale(0.9); /* Smaller on click */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        #prevPage {
+            left: -4rem; /* Position outside the book */
+        }
+
+        #nextPage {
+            right: -4rem; /* Position outside the book */
+        }
+
+        /* Styling for the text content */
+        .text-content {
+            font-size: clamp(0.9rem, 1.8vw, 1.2rem); /* Responsive font size */
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            text-align: left; /* Align text left within the page */
+            width: 100%;
+        }
+
+        .text-content h2 {
+            font-family: 'Dancing Script', cursive; /* Kept Dancing Script for headings */
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: #ef4444; /* Red for headings */
+            margin-bottom: 1rem;
+        }
+
+        .text-content p {
+            margin-bottom: 0.8rem;
+        }
+
+        .text-content .signature {
+            font-family: 'Dancing Script', cursive; /* Kept Dancing Script for signature */
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            margin-top: 2rem;
+            text-align: right;
+            width: 100%;
+        }
+
+        /* Photo container styling */
+        .photo-container {
+            width: 180px; /* Increased size for photo */
+            height: 180px;
+            border-radius: 50%; /* Circular shape */
+            background-color: #f0f4f8; /* Light background for empty state */
+            border: 4px solid #ef4444; /* Red border */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* Clip image to circle */
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Soft shadow */
+            background-size: cover; /* Cover the container */
+            background-position: center; /* Center the image */
+            transition: background-image 0.5s ease-in-out; /* Smooth transition for image change */
+            animation: pulse-border 2s infinite alternate; /* Pulsing border animation */
+            /* Directly set the background image here */
+            background-image: url('https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME/main/shreeya_photo.jpg'); /* REPLACE THIS URL */
+        }
+
+        @keyframes pulse-border {
+            0% { border-color: #ef4444; box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); }
+            100% { border-color: #ff7f7f; box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25); }
+        }
+
+        .photo-placeholder-text {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 10px;
+            /* Hide placeholder text if an image is set */
+            display: none;
+        }
+
+        /* Remove the photo input area as it's no longer needed */
+        .photo-input-area {
+            display: none;
+        }
+
+
+        /* Sparkle animation */
+        .sparkle-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .sparkle {
+            position: absolute;
+            background-color: gold;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkle-fade 2s forwards infinite;
+        }
+
+        @keyframes sparkle-fade {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Styling for the return button */
+        .return-button {
+            display: inline-block; /* Allows padding and margins */
+            background-color: #ef4444; /* Red background */
+            color: white; /* White text */
+            padding: 1rem 2rem; /* Generous padding */
+            border-radius: 0.75rem; /* Rounded corners */
+            font-size: 1.25rem; /* Larger font size */
+            font-weight: 700; /* Bold text */
+            text-decoration: none; /* Remove underline */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Smooth transitions */
+            margin-top: 2rem; /* Space from text above */
+        }
+
+        .return-button:hover {
+            background-color: #dc2626; /* Darker red on hover */
+            transform: translateY(-3px); /* Lift effect on hover */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+        }
+
+        .return-button:active {
+            transform: translateY(0); /* Press effect on click */
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15); /* Smaller shadow on click */
+        }
+
+
+        /* Media queries for smaller screens (e.g., portrait iPad, phones) */
+        @media (max-width: 768px) {
+            .card-container {
+                width: 95vw;
+                height: 80vh;
+            }
+
+            .book {
+                width: 100%;
+                height: 100%;
+            }
+
+            .page {
+                width: 100%; /* Pages take full book width on small screens */
+                right: 0;
+                transform-origin: center center; /* Flip from center */
+                padding: 1rem;
+            }
+            .page:nth-child(even) {
+                left: 0;
+                right: auto;
+                transform-origin: center center;
+            }
+
+            .flipped {
+                transform: rotateY(-180deg); /* Still rotate Y for visual consistency */
+            }
+
+            #prevPage, #nextPage {
+                top: auto;
+                bottom: 1rem; /* Move buttons to bottom */
+                transform: none;
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 1.2rem;
+            }
+
+            #prevPage {
+                left: 1rem;
+            }
+            #nextPage {
+                right: 1rem;
+            }
+
+            .text-content h2 {
+                font-size: clamp(1.5rem, 6vw, 2rem);
+            }
+            .text-content {
+                font-size: clamp(0.8rem, 2.5vw, 1rem);
+            }
+            .text-content .signature {
+                font-size: clamp(1rem, 3.5vw, 1.5rem);
+            }
+
+            .photo-container {
+                width: 120px;
+                height: 120px;
+            }
+
+            .return-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sparkle-container"></div>
+
+    <div class="card-container">
+        <button id="prevPage" class="nav-button">&lt;</button>
+        <div class="book">
+            <div class="book-spine"></div> <!-- Added book spine for realism -->
+            <!-- Page 1: Cover -->
+            <div class="page" id="page1">
+                <div class="page-content flex-col justify-center items-center">
+                    <h2 class="text-content">🌸 To My One and Only – On Your 18th Birthday 🌸</h2>
+                    <!-- Photo container - URL is directly in CSS now -->
+                    <div id="shreeyaPhoto" class="photo-container">
+                        <span class="photo-placeholder-text"></span>
+                    </div>
+                    <!-- Photo input area removed -->
+                    <p class="text-content text-sm text-gray-500 mt-4">Tap or swipe to turn the page</p>
+                </div>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="page" id="page2">
+                <div class="page-content">
+                    <p class="text-content">
+                        You’re finally 18, a milestone the world celebrates…<br>
+                        But to me, you’ve always been timeless —<br>
+                        Not just in your smile, but in the way your presence brings peace<br>
+                        Even when words fall short, your silence feels like home.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 3 -->
+            <div class="page" id="page3">
+                <div class="page-content">
+                    <p class="text-content">
+                        From stolen glances in hallways to late-night laughter,<br>
+                        From awkward beginnings to memories I’ll carry forever —<br>
+                        You’ve been the calm in my chaos,<br>
+                        The spark behind my every heartbeat.
+                    </p>
+                    <p class="text-content mt-4">
+                        We’ve shared moments both sweet and silly,<br>
+                        Fought, made up, wandered, and returned to each other —<br>
+                        Each chapter with you has made my story worth telling.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 4: Original Last Page - Content expanded -->
+            <div class="page" id="page4">
+                <div class="page-content">
+                    <p class="text-content">
+                        You were my first Valentine, my secret crush, my favorite hello,<br>
+                        And even when we say nothing… I still feel everything.
+                    </p>
+                    <p class="text-content mt-4">
+                        Every shared glance, every whispered word, every silent understanding –<br>
+                        they are treasures I hold dear, moments that define us.<br>
+                        Your strength inspires me, your kindness moves me, and your laughter is my favorite melody.
+                    </p>
+                    <p class="text-content mt-4">
+                        So here’s to you —<br>
+                        Your dreams, your growth, your light.<br>
+                        May this year bring all that you desire…<br>
+                        And may I continue to be a part of every new tomorrow.
+                    </p>
+                    <h2 class="text-content mt-6">💫 Happy 18th Birthday, Shreeya. 💫</h2>
+                    <p class="text-content signature">
+                        With all my heart — always,<br>
+                        Your biggest fan, your forever person.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Page 5: New Final Page with "Return to OS button" -->
+            <div class="page" id="page5">
+                <div class="page-content flex-col justify-center items-center">
+                    <h2 class="text-content">All my love, always.</h2>
+                    <p class="text-content mt-4">
+                        This card is just a small token of the immense joy you bring into my life.
+                        May your 18th year be filled with even more happiness, success, and love.
+                    </p>
+                    <a href="https://dsgssg.github.io/sb/page3.html" class="return-button">Return to OS</a>
+                    <img src="https://placehold.co/100x100/FFDDC1/FF6B6B?text=❤️" alt="Heart Icon" class="mt-6 w-24 h-24 animate-pulse">
+                </div>
+            </div>
+        </div>
+        <button id="nextPage" class="nav-button">&gt;</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const book = document.querySelector('.book');
+            const pages = Array.from(document.querySelectorAll('.page'));
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
+            let currentPageIndex = 0; // Start at 0 for the cover page
+
+            // Function to set initial page states and content visibility
+            function initializePages() {
+                pages.forEach((page, index) => {
+                    if (index === 0) {
+                        page.style.zIndex = pages.length; // Cover page on top
+                        page.classList.add('active');
+                        // Ensure content is visible on the initial active page
+                        page.querySelector('.page-content').style.opacity = 1;
+                        page.querySelector('.page-content').style.transform = 'translateY(0)';
+                    } else {
+                        page.style.zIndex = pages.length - index - 1;
+                        page.style.transform = 'rotateY(0deg)';
+                        // Ensure content is hidden on inactive pages
+                        page.querySelector('.page-content').style.opacity = 0;
+                        page.querySelector('.page-content').style.transform = 'translateY(10px)';
+                    }
+                });
+            }
+
+            // Call initialization on load
+            initializePages();
+
+            // Function to update Z-index for correct layering during flips
+            function updatePageZIndex() {
+                pages.forEach((page, index) => {
+                    if (index < currentPageIndex) {
+                        // Pages already flipped should be behind
+                        page.style.zIndex = index; // Lower z-index
+                    } else if (index === currentPageIndex) {
+                        // Current page (being viewed or about to flip)
+                        page.style.zIndex = pages.length; // Highest z-index
+                    } else {
+                        // Pages not yet reached
+                        page.style.zIndex = pages.length - index; // Decreasing z-index
+                    }
+                });
+            }
+
+            // Page turning logic
+            function turnPage(direction) {
+                if (direction === 'next' && currentPageIndex < pages.length - 1) {
+                    const currentPage = pages[currentPageIndex];
+                    const nextPage = pages[currentPageIndex + 1];
+
+                    // Hide current page content immediately
+                    currentPage.querySelector('.page-content').style.opacity = 0;
+                    currentPage.querySelector('.page-content').style.transform = 'translateY(10px)';
+
+                    currentPage.classList.add('flipping');
+                    currentPage.classList.add('flipped');
+                    
+                    // After the flip animation, remove flipping class and activate next page content
+                    currentPage.addEventListener('transitionend', function handler() {
+                        currentPage.classList.remove('flipping');
+                        // Activate the next page's content after the flip is visually complete
+                        nextPage.querySelector('.page-content').style.opacity = 1;
+                        nextPage.querySelector('.page-content').style.transform = 'translateY(0)';
+                        currentPage.removeEventListener('transitionend', handler);
+                    }, { once: true }); // Use { once: true } to ensure it runs only once
+
+                    currentPageIndex++;
+                    updatePageZIndex();
+                } else if (direction === 'prev' && currentPageIndex > 0) {
+                    const currentPage = pages[currentPageIndex];
+                    const prevPage = pages[currentPageIndex - 1];
+
+                    // Hide current page content immediately
+                    currentPage.querySelector('.page-content').style.opacity = 0;
+                    currentPage.querySelector('.page-content').style.transform = 'translateY(10px)';
+
+                    prevPage.classList.add('flipping');
+                    prevPage.classList.remove('flipped');
+                    
+                    // After the unflip animation, remove flipping class and activate previous page content
+                    prevPage.addEventListener('transitionend', function handler() {
+                        prevPage.classList.remove('flipping');
+                        // Activate the previous page's content after the unflip is visually complete
+                        prevPage.querySelector('.page-content').style.opacity = 1;
+                        prevPage.querySelector('.page-content').style.transform = 'translateY(0)';
+                        prevPage.removeEventListener('transitionend', handler);
+                    }, { once: true }); // Use { once: true } to ensure it runs only once
+
+                    currentPageIndex--;
+                    updatePageZIndex();
+                }
+                updateButtonVisibility();
+            }
+
+            // Update button visibility based on current page
+            function updateButtonVisibility() {
+                prevBtn.style.display = currentPageIndex === 0 ? 'none' : 'flex';
+                // The next button hides when on the very last page (index 4 for 5 pages)
+                nextBtn.style.display = currentPageIndex === pages.length - 1 ? 'none' : 'flex';
+            }
+
+            // Event Listeners for buttons
+            prevBtn.addEventListener('click', () => turnPage('prev'));
+            nextBtn.addEventListener('click', () => turnPage('next'));
+
+            // Initial button state
+            updateButtonVisibility();
+
+            // --- Touch/Swipe functionality for iPad suitability ---
+            let touchStartX = 0;
+            let touchEndX = 0;
+            const minSwipeDistance = 50; // Minimum pixels for a recognized swipe
+
+            book.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+            });
+
+            book.addEventListener('touchmove', (e) => {
+                touchEndX = e.touches[0].clientX;
+            });
+
+            book.addEventListener('touchend', () => {
+                const swipeDistance = touchEndX - touchStartX;
+
+                if (swipeDistance > minSwipeDistance) {
+                    // Swiped right (prev page)
+                    turnPage('prev');
+                } else if (swipeDistance < -minSwipeDistance) {
+                    // Swiped left (next page)
+                    turnPage('next');
+                }
+                // Reset touch positions
+                touchStartX = 0;
+                touchEndX = 0;
+            });
+
+            // --- Sparkle Animation ---
+            const sparkleContainer = document.querySelector('.sparkle-container');
+
+            function createSparkle() {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkleContainer.appendChild(sparkle);
+
+                const size = Math.random() * 8 + 4; // Sparkle size 4-12px
+                sparkle.style.width = `${size}px`;
+                sparkle.style.height = `${size}px`;
+                sparkle.style.left = `${Math.random() * 100}%`;
+                sparkle.style.top = `${Math.random() * 100}%`;
+                sparkle.style.animationDelay = `${Math.random() * 2}s`; // Stagger animation
+                sparkle.style.animationDuration = `${Math.random() * 1.5 + 1.5}s`; // Duration 1.5-3s
+
+                // Remove sparkle after animation to prevent DOM clutter
+                sparkle.addEventListener('animationend', () => {
+                    sparkle.remove();
+                });
+            }
+
+            // Generate sparkles periodically
+            setInterval(createSparkle, 300); // Create a new sparkle every 300ms
+        });
+    </script>
+</body>
+</html>
