@@ -18,6 +18,24 @@
       height: 100vh;
       overflow: hidden;
     }
+    .preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, #ffe0f0, #ffd6e8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
+    }
+    .heart-animation {
+      font-size: 8rem;
+      color: #ff69b4;
+      animation: pulseHeart 1.5s infinite ease-in-out;
+    }
     .quiz-container {
       background: white;
       border-radius: 30px;
@@ -27,9 +45,13 @@
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
       text-align: center;
       display: none;
-      animation: fadeIn 0.7s ease-in-out;
+      opacity: 0; /* Initial state for animation */
+      transform: translateY(20px); /* Initial state for animation */
     }
-    .quiz-container.active { display: block; }
+    .quiz-container.active {
+      display: block;
+      animation: slideInUp 0.7s forwards cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bounce effect */
+    }
     .question {
       font-size: 1.6rem;
       font-family: 'Pacifico', cursive;
@@ -44,7 +66,7 @@
       border-radius: 50px;
       font-size: 1rem;
       cursor: pointer;
-      transition: 0.3s;
+      transition: 0.3s ease-in-out; /* Smooth transition for hover */
       display: block;
       width: 100%;
       max-width: 300px;
@@ -64,16 +86,23 @@
       font-size: 1.1rem;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      transition: 0.3s ease-in-out; /* Smooth transition for hover */
     }
-    .next-btn:hover { background: #ff85c1; }
+    .next-btn:hover {
+      background: #ff85c1;
+      transform: scale(1.05);
+    }
     .message-screen, .result-screen {
       display: none;
       text-align: center;
       padding: 40px 20px;
       font-family: 'Pacifico', cursive;
+      opacity: 0; /* Initial state for animation */
+      transform: translateY(20px); /* Initial state for animation */
     }
     .message-screen.active, .result-screen.active {
       display: block;
+      animation: slideInUp 0.7s forwards cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bounce effect */
     }
     .result-screen h2 {
       font-size: 1.8rem;
@@ -84,18 +113,53 @@
       color: #c2185b;
       font-size: 1.1rem;
       font-weight: bold;
-      animation: fadeIn 0.6s ease-in-out;
+      opacity: 0; /* Initial state for animation */
+      transform: scale(0.8); /* Initial state for animation */
     }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+    .reaction-text.show {
+      animation: popIn 0.4s forwards cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Pop-in effect */
+      opacity: 1; /* Keep visible after animation */
+      transform: scale(1); /* Keep visible after animation */
+    }
+
+    /* Confetti Canvas */
+    canvas#confetti-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; /* Allows clicks to pass through */
+        z-index: 9998; /* Below preloader, above everything else */
+    }
+
+    /* Animations */
+    @keyframes pulseHeart {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(50px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
 
-<!-- Quiz 1 -->
-<div id="quiz1" class="quiz-container active">
+<div class="preloader" id="preloader">
+  <span class="heart-animation">💖</span>
+</div>
+
+<canvas id="confetti-canvas"></canvas>
+
+<div id="quiz1" class="quiz-container">
   <div class="question">Do you remember your past birthday? Did you like it?</div>
   <div class="options">
     <button onclick="showReaction(this)">Yes, I did 😊</button>
@@ -106,7 +170,6 @@
   <button class="next-btn" onclick="nextQuiz('quiz1', 'quiz2')">Next</button>
 </div>
 
-<!-- Quiz 2 -->
 <div id="quiz2" class="quiz-container">
   <div class="question">Did you love your Valentine gift and enjoy 15 Feb?</div>
   <div class="options">
@@ -119,7 +182,6 @@
   <button class="next-btn" onclick="nextQuiz('quiz2', 'quiz3')">Next</button>
 </div>
 
-<!-- Quiz 3 -->
 <div id="quiz3" class="quiz-container">
   <div class="question">337 days, 11 months, or 8088 hours... Do you love me more now?</div>
   <div class="options">
@@ -132,14 +194,12 @@
   <button class="next-btn" onclick="showMessageScreen()">Next</button>
 </div>
 
-<!-- Transition Message -->
 <div id="messageScreen" class="message-screen">
   <h2>This is the last... and the hardest question ❤️</h2>
   <p>Answer wisely... your heart might depend on it.</p>
   <button class="next-btn" onclick="nextQuiz('messageScreen', 'quiz4')">I’m Ready</button>
 </div>
 
-<!-- Quiz 4 -->
 <div id="quiz4" class="quiz-container">
   <div class="question">Meri girl wali friend banegi?</div>
   <div class="options">
@@ -152,7 +212,6 @@
   <button class="next-btn" onclick="showResult()">Finish</button>
 </div>
 
-<!-- Result Screen -->
 <div id="resultScreen" class="result-screen">
   <h2>Tujhse toh har sawaal haar gaya main 😍❤️</h2>
   <p>Thanks for playing, meri jaan. You already won me long ago 🌟</p>
@@ -160,38 +219,217 @@
   <button class="next-btn" onclick="goToMainPage()">Back to Heart OS</button>
 </div>
 
-<!-- Script -->
 <script>
-function nextQuiz(currentId, nextId) {
-  document.getElementById(currentId).classList.remove('active');
-  document.getElementById(nextId).classList.add('active');
-}
+  document.addEventListener('DOMContentLoaded', () => {
+    const preloader = document.getElementById('preloader');
+    setTimeout(() => {
+      preloader.style.opacity = '0';
+      setTimeout(() => {
+        preloader.style.display = 'none';
+        document.getElementById('quiz1').classList.add('active'); // Show first quiz after preloader
+      }, 500); // Wait for fade-out to complete
+    }, 2000); // Display preloader for 2 seconds
+  });
 
-function showMessageScreen() {
-  document.getElementById('quiz3').classList.remove('active');
-  document.getElementById('messageScreen').classList.add('active');
-}
+  function nextQuiz(currentId, nextId) {
+    const currentQuiz = document.getElementById(currentId);
+    const nextQuizElement = document.getElementById(nextId);
 
-function showResult() {
-  document.getElementById('quiz4').classList.remove('active');
-  document.getElementById('resultScreen').classList.add('active');
-}
+    // Fade out and slide down current quiz
+    currentQuiz.style.opacity = '0';
+    currentQuiz.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      currentQuiz.classList.remove('active');
+      // Fade in and slide up next quiz
+      nextQuizElement.classList.add('active');
+      nextQuizElement.style.opacity = '0'; // Reset for animation
+      nextQuizElement.style.transform = 'translateY(20px)'; // Reset for animation
+      setTimeout(() => {
+        nextQuizElement.style.opacity = '1';
+        nextQuizElement.style.transform = 'translateY(0)';
+      }, 50); // Small delay to trigger animation
+    }, 700); // Match current quiz animation duration
+  }
 
-function showReaction(btn) {
-  const container = btn.closest('.quiz-container');
-  const id = container.id.replace('quiz', 'reaction');
+  function showMessageScreen() {
+    const quiz3 = document.getElementById('quiz3');
+    const messageScreen = document.getElementById('messageScreen');
 
-  const fixedReactions = {
-    "reaction1": "💥 Baba re baba 😳",
-    "reaction2": "🧠 I knew that 😎",
-    "reaction3": "🐥 Gulu gulu to you 😚",
-    "reaction4": "😘 Yeh le kissi 💋"
-  };
+    quiz3.style.opacity = '0';
+    quiz3.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      quiz3.classList.remove('active');
+      messageScreen.classList.add('active');
+      messageScreen.style.opacity = '0';
+      messageScreen.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        messageScreen.style.opacity = '1';
+        messageScreen.style.transform = 'translateY(0)';
+      }, 50);
+    }, 700);
+  }
 
-  document.getElementById(id).innerText = fixedReactions[id] || "";
-}
+  function showResult() {
+    const quiz4 = document.getElementById('quiz4');
+    const resultScreen = document.getElementById('resultScreen');
 
-function goToMainPage() {
-  window.location.href = "https://dsgssg.github.io/sb/page3.html";
-}
+    quiz4.style.opacity = '0';
+    quiz4.style.transform = 'translateY(20px)';
+    setTimeout(() => {
+      quiz4.classList.remove('active');
+      resultScreen.classList.add('active');
+      resultScreen.style.opacity = '0';
+      resultScreen.style.transform = 'translateY(20px)';
+      setTimeout(() => {
+        resultScreen.style.opacity = '1';
+        resultScreen.style.transform = 'translateY(0)';
+        startConfetti(); // Start confetti when result screen shows
+        setTimeout(() => {
+          stopConfetti();
+          removeConfetti();
+        }, 5000); // Stop confetti after 5 seconds
+      }, 50);
+    }, 700);
+  }
+
+  function showReaction(btn) {
+    const container = btn.closest('.quiz-container');
+    const id = container.id.replace('quiz', 'reaction');
+    const reactionElement = document.getElementById(id);
+
+    // Reset current reaction state to ensure animation replays if clicked multiple times
+    reactionElement.classList.remove('show');
+    reactionElement.style.opacity = '0';
+    reactionElement.style.transform = 'scale(0.8)';
+
+    const fixedReactions = {
+      "reaction1": "💥 Baba re baba 😳",
+      "reaction2": "🧠 I knew that 😎",
+      "reaction3": "🐥 Gulu gulu to you 😚",
+      "reaction4": "😘 Yeh le kissi 💋"
+    };
+
+    reactionElement.innerText = fixedReactions[id] || "";
+    // Using a small timeout to re-add the class, forcing the animation to play again
+    setTimeout(() => {
+      reactionElement.classList.add('show');
+    }, 10);
+  }
+
+  function goToMainPage() {
+    window.location.href = "https://dsgssg.github.io/sb/page3.html";
+  }
+
+  // --- Confetti Animation Code ---
+  var maxParticleCount = 150; // Set max # of confetti here; 1000 is best for a super dense/slow fall, 500 for normal
+  var particleSpeed = 2; // Sets the speed of the confetti, default is 2
+  var startConfetti;
+  var stopConfetti;
+  var removeConfetti;
+  var toggleConfetti;
+  var is;//
+  (function() {
+      startConfetti = startConfettiJS;
+      stopConfetti = stopConfettiJS;
+      removeConfetti = removeConfettiJS;
+      toggleConfetti = toggleConfettiJS;
+      is = init;
+
+      var colors = ["#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B", "#FFC107", "#FF9800", "#FF5722", "#795548", "#9E9E9E", "#607D8B"];
+      var streamingAnimationFrame = undefined;
+      var animationTimer = undefined;
+      var particles = [];
+      var waveAngle = 0;
+      var canvas = document.getElementById("confetti-canvas");
+      var context = canvas.getContext("2d");
+      set;//
+      function set //
+      (width, height) {
+          canvas.width = width;
+          canvas.height = height;
+      }
+
+      function init() {
+          set(window.innerWidth, window.innerHeight);
+          window.addEventListener('resize', function() {
+              set(window.innerWidth, window.innerHeight);
+          }, false);
+      }
+
+      function toggleConfettiJS() {
+          if (streamingAnimationFrame) {
+              stopConfettiJS();
+          } else {
+              startConfettiJS();
+          }
+      }
+
+      function startConfettiJS() {
+          if (streamingAnimationFrame) return;
+          var reset = false;
+          animationTimer = setInterval(function() {
+              if (particles.length < maxParticleCount)
+                  particles.push(new ConfettiParticle());
+              if (reset)
+                  clearInterval(animationTimer);
+              reset = false;
+          }, 1000 / particleSpeed);
+          streamingAnimationFrame = requestAnimationFrame(update);
+      }
+
+      function stopConfettiJS() {
+          cancelAnimationFrame(streamingAnimationFrame);
+          clearInterval(animationTimer);
+          streamingAnimationFrame = undefined;
+          animationTimer = undefined;
+          clearTimeout(this.remove)//
+      }
+
+      function removeConfettiJS() {
+          stopConfetti();
+          particles = [];
+          context.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      function ConfettiParticle() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height - canvas.height;
+          this.r = Math.floor(Math.random() * 10) + 10;
+          this.d = (Math.random() * maxParticleCount) + 10;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.tilt = Math.floor(Math.random() * 10) - 10;
+          this.tiltAngleIncremental = (Math.random() * 0.07) + 0.05;
+          this.tiltAngle = 0;
+
+          this.draw = function() {
+              context.beginPath();
+              context.lineWidth = this.r / 2;
+              context.strokeStyle = this.color;
+              context.moveTo(this.x + this.tilt + (this.r / 4), this.y);
+              context.lineTo(this.x + this.tilt, this.y + this.tilt + (this.r / 4));
+              context.stroke();
+          }
+      }
+
+      function update() {
+          context.clearRect(0, 0, canvas.width, canvas.height);
+          for (var i = 0; i < particles.length; i++) {
+              var p = particles[i];
+              p.tiltAngle += p.tiltAngleIncremental;
+              p.y += (Math.cos(waveAngle + p.d) + p.r + particleSpeed) * 0.4;
+              p.tilt = (Math.sin(p.tiltAngle) * 15);
+              p.draw();
+
+              if (p.y > canvas.height) {
+                  particles[i] = new ConfettiParticle();
+              }
+          }
+          waveAngle += 0.01;
+          streamingAnimationFrame = requestAnimationFrame(update);
+      }
+      init();
+  })();
 </script>
+
+</body>
+</html>
