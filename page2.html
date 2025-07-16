@@ -1,122 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Birthday Shreeya 🎀</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Shreeya 🎀</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: 'Comic Sans MS', cursive;
-      overflow: hidden;
-    }
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Quicksand', sans-serif;
+        }
 
-    body {
-      background: #ffe6f2;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffe6f2; /* Soft pink background for the initial "Hello Madam Ji" screen */
+            transition: background-color 1s ease-out; /* Smooth transition for background */
+            position: relative; /* Needed for absolute positioning of the image */
+        }
 
-    .background-img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 1;
-      opacity: 0.9;
-    }
+        /* --- Initial Welcome Overlay (Hello Madam Ji) --- */
+        .welcome-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #ffe6f2; /* Matches body background */
+            color: #ff4d94;
+            z-index: 100; /* Ensure it's on top initially */
+            opacity: 1;
+            transition: opacity 1s ease-out;
+            padding: 20px;
+        }
 
-    .overlay {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      color: #ff4d94;
-      padding: 20px;
-    }
+        .welcome-overlay.hidden {
+            opacity: 0;
+            pointer-events: none; /* Disable interaction when hidden */
+        }
 
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      animation: fadeInDown 1s ease forwards;
-    }
+        h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            color: #d63384;
+            text-shadow: 2px 2px 8px rgba(255, 105, 180, 0.6);
+            animation: fadeInDownBounce 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            opacity: 0; /* Initially hidden for animation */
+        }
 
-    .btn {
-      padding: 14px 30px;
-      font-size: 1.2rem;
-      border: none;
-      border-radius: 30px;
-      background: #ff69b4;
-      color: white;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.3s ease;
-      animation: fadeInUp 1s ease forwards;
-    }
+        @keyframes fadeInDownBounce {
+            0% { opacity: 0; transform: translateY(-100px) scale(0.7); }
+            60% { opacity: 1; transform: translateY(15px) scale(1.05); }
+            80% { transform: translateY(-8px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
 
-    .btn:hover {
-      background: #ff85c1;
-      transform: scale(1.05);
-    }
+        .btn {
+            padding: 16px 35px;
+            font-size: 1.4rem;
+            border: none;
+            border-radius: 40px;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: fadeInUpPulse 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            animation-delay: 0.5s; /* Delay after heading animation */
+            opacity: 0; /* Initially hidden for animation */
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
 
-    @keyframes fadeInDown {
-      from {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        .btn:hover {
+            background: linear-gradient(45deg, #ff1493, #ff69b4);
+            transform: scale(1.08) translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease-out, height 0.4s ease-out;
+            z-index: -1;
+        }
 
-    @media (orientation: landscape) {
-      h1 {
-        font-size: 1.6rem;
-      }
-      .btn {
-        font-size: 1rem;
-        padding: 12px 25px;
-      }
-    }
-  </style>
+        .btn:hover::before {
+            width: 200px;
+            height: 200px;
+        }
+
+        @keyframes fadeInUpPulse {
+            0% { opacity: 0; transform: translateY(100px) scale(0.7); }
+            60% { opacity: 1; transform: translateY(-10px) scale(1.05); }
+            80% { transform: translateY(5px) scale(0.98); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* --- Birthday Image Display --- */
+        .birthday-img-display {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1; /* Below the welcome overlay initially */
+            opacity: 0; /* Hidden initially */
+            transition: opacity 1s ease-out;
+        }
+
+        .birthday-img-display.active {
+            opacity: 1; /* When active, show the image */
+            z-index: 50; /* Bring it above the fading welcome overlay */
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (min-width: 768px) and (max-width: 1024px) {
+            h1 { font-size: 3.5rem; }
+            .btn { font-size: 1.6rem; padding: 18px 40px; }
+        }
+
+        @media (orientation: landscape) and (min-width: 768px) {
+            h1 { font-size: 3rem; }
+            .btn { font-size: 1.4rem; padding: 15px 30px; }
+        }
+
+        @media (max-width: 767px) {
+            h1 { font-size: 2rem; }
+            .btn { font-size: 1.1rem; padding: 12px 25px; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Background birthday image -->
-  <img src="birthday-ipad-shreeya.png" alt="Happy Birthday Shreeya" class="background-img" />
+    <div class="welcome-overlay" id="welcomeOverlay">
+        <h1>👋 Hello Madam Ji... 🥹</h1>
+        <button class="btn" onclick="showBirthdayImage()">💖 Continue to Heart OS 💖</button>
+    </div>
 
-  <!-- Overlay content on top of image -->
-  <div class="overlay">
-    <h1>👋 Hello Madam Ji... 🥹</h1>
-    <button class="btn" onclick="goToNext()">💖 Continue to Heart OS 💖</button>
-  </div>
+    <img src="birthday-ipad-shreeya.png" alt="Happy Birthday Shreeya" class="birthday-img-display" id="birthdayImage" />
 
-  <script>
-    function goToNext() {
-      window.location.href = "page3.html";
-    }
-  </script>
+    <script>
+        const welcomeOverlay = document.getElementById('welcomeOverlay');
+        const birthdayImage = document.getElementById('birthdayImage');
+
+        function showBirthdayImage() {
+            // 1. Fade out the welcome overlay
+            welcomeOverlay.classList.add('hidden');
+
+            // 2. After the welcome overlay fades, fade in the birthday image
+            setTimeout(() => {
+                birthdayImage.classList.add('active');
+
+                // 3. Keep the birthday image visible for a few seconds
+                setTimeout(() => {
+                    // Optional: Fade out the birthday image before redirecting
+                    birthdayImage.style.opacity = '0';
+                    birthdayImage.style.transition = 'opacity 0.5s ease-out';
+
+                    // 4. Then redirect to page3.html
+                    setTimeout(() => {
+                        window.location.href = "page3.html";
+                    }, 500); // Wait for birthday image fade-out
+                }, 3000); // Display birthday image for 3 seconds
+            }, 1000); // Wait for welcome overlay to fade out (1s transition)
+        }
+    </script>
 
 </body>
 </html>
