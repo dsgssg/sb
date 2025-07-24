@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Love Notes 💌</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Quicksand:wght@400;600&display=swap');
+
+    :root {
+      --primary-color: #d6336c;
+      --primary-hover: #a61e4d;
+      --background-gradient: linear-gradient(to bottom right, #fff7f5, #ffe4ec);
+      --card-background: #fff0f6;
+      --card-back: #ffffff;
+      --text-dark: #333;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      --shadow-hover: 0 15px 35px rgba(214, 51, 108, 0.2);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: var(--background-gradient);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Floating hearts animation */
+    .floating-hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .heart {
+      position: absolute;
+      font-size: 20px;
+      color: rgba(214, 51, 108, 0.1);
+      animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    header {
+      text-align: center;
+      padding: 20px 0;
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin: 20px 0;
+      color: var(--primary-color);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      animation: titlePulse 3s ease-in-out infinite;
+    }
+
+    @keyframes titlePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .control-btn {
+      padding: 10px 20px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .control-btn:hover {
+      background: var(--primary-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .control-btn:focus {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
+    .progress-bar {
+      width: 200px;
+      height: 4px;
+      background: rgba(214, 51, 108, 0.2);
+      border-radius: 2px;
+      margin: 0 auto 20px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--primary-color);
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .flip-card {
+      background-color: transparent;
+      height: 200px;
+      perspective: 1000px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .flip-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .flip-card:focus {
+      outline: 3px solid var(--primary-color);
+      outline-offset: 3px;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+    }
+
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 25px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .flip-card:hover .flip-card-front,
+    .flip-card:hover .flip-card-back {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .flip-card-front {
+      background: linear-gradient(135deg, var(--card-background), #ffe9f3);
+      color: var(--primary-color);
+      font-family: 'Great Vibes', cursive;
+      font-size: 2rem;
+      text-align: center;
+      border: 2px solid rgba(214, 51, 108, 0.1);
+    }
+
+    .flip-card-back {
+      background: var(--card-back);
+      color: var(--text-dark);
+      transform: rotateY(180deg);
+      font-family: 'Quicksand', sans-serif;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      text-align: center;
+      background-image: 
+        radial-gradient(circle at 20% 20%, rgba(214, 51, 108, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(214, 51, 108, 0.05) 0%, transparent 50%);
+      position: relative;
+    }
+
+    .flip-card-back::before {
+      content: '💖';
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1.2rem;
+      opacity: 0.3;
+    }
+
+    .back-btn {
+      display: block;
+      margin: 40px auto 60px;
+      padding: 15px 35px;
+      background: var(--primary-color);
+      color: white;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .back-btn:hover {
+      background: var(--primary-hover);
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .back-btn:focus {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .cards-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 30px 15px;
+      }
+      
+      .flip-card {
+        height: 180px;
+      }
+      
+      .flip-card-front {
+        font-size: 1.6rem;
+      }
+      
+      .flip-card-back {
+        font-size: 1rem;
+        padding: 20px;
+      }
+      
+      .controls {
+        padding: 0 15px;
+      }
+      
+      .control-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .flip-card-front {
+        font-size: 1.4rem;
+      }
+      
+      .flip-card-back {
+        font-size: 0.95rem;
+        padding: 18px;
+      }
+      
+      .progress-bar {
+        width: 150px;
+      }
+    }
+
+    /* Animations */
+    .flip-card {
+      animation: cardEntrance 0.6s ease-out backwards;
+    }
+
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Stagger animation delay for cards */
+    .flip-card:nth-child(1) { animation-delay: 0.1s; }
+    .flip-card:nth-child(2) { animation-delay: 0.2s; }
+    .flip-card:nth-child(3) { animation-delay: 0.3s; }
+    .flip-card:nth-child(4) { animation-delay: 0.4s; }
+    .flip-card:nth-child(5) { animation-delay: 0.5s; }
+    .flip-card:nth-child(6) { animation-delay: 0.6s; }
+    .flip-card:nth-child(7) { animation-delay: 0.7s; }
+    .flip-card:nth-child(8) { animation-delay: 0.8s; }
+
+    /* Accessibility */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating hearts background -->
+  <div class="floating-hearts" id="floating-hearts"></div>
+
+  <header>
+    <h1>Love Notes for Shreeya 💖</h1>
+    
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+    
+    <div class="controls">
+      <button class="control-btn" onclick="flipAllCards()" aria-label="Flip all cards to reveal messages">
+        ✨ Flip All
+      </button>
+      <button class="control-btn" onclick="resetAllCards()" aria-label="Reset all cards to front">
+        🔄 Reset All
+      </button>
+      <button class="control-btn" onclick="playSequence()" aria-label="Play cards in sequence">
+        ▶️ Play Sequence
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div class="cards-container" id="cards-container">
+      <div class="flip-card" tabindex="0" onclick="flipCard(this)" onkeydown="handleKeyPress(event, this)" 
+           role="button" aria-label="Love note 1 - Click or press Enter to reveal">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">💌 Note 1</div>
+          <div class="flip-card-back">Your smile is the pause button in my chaos.</div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0" onclick="flipCard(this)" onkeydown="handleKeyPress(event, this)" 
+           role="button" aria-label="Love note 2 - Click or press Enter to reveal">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">💗 Note 2</div>
+          <div class="flip-card-back">Even your silence speaks to me louder than words ever could.</div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0" onclick="flipCard(this)" onkeydown="handleKeyPress(event, this)" 
+           role="button" aria-label="Love note 3 - Click or press Enter to reveal">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">💘 Note 3</div>
+          <div class="flip-card-back">You're not just part of my story, you're the whole plot twist I never saw coming.</div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0" onclick="flipCard(this)" onkeydown="handleKeyPress(event, this)" 
+           role="button" aria-label="Love note 4 - Click or press Enter to reveal">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">🌸 Note 4</div>
+          <div class="flip-card-back">Tera haath pakadna tha, par dil chura baitha main.</div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0" onclick="flipCard(this)" onkeydown="handleKeyPress(event, this)" 
+           role="button" aria-label="Love note 5 - Click or press Enter to reveal">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">✨ Note 5</div>
+          <div class="flip-card-back">When I look at you, I see every reason I smiled without knowing why.</div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0" onclick="flipCard(this)" onkeydown="handleKeyPress(event, this)" 
+           role="button" aria-label="Love note 6 - Click or press Enter to reveal">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">🌼 Note 6</div>
+          <div class="flip-card-back">Every "good morning" I wish starts with your name in my heart.</div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0" onclick="flipCard(this)" onkeydown="handleKeyPress(event, this)" 
+           role="button" aria-label="Love note 7 - Click or press Enter to reveal">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">🌷 Note 7</div>
+          <div class="flip-card-back">Even on my worst days, thinking of you feels like home.</div>
+        </div>
+      </div>
+
+      <div class="flip-card" tabindex="0" onclick="flipCard(this)" onkeydown="handleKeyPress(event, this)" 
+           role="button" aria-label="Love note 8 - Click or press Enter to reveal">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">💫 Note 8</div>
+          <div class="flip-card-back">If I could write you into a poem, no verse would do you justice.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <a href="https://dsgssg.github.io/sb/page3.html" class="back-btn">← Back to Heart OS</a>
+
+  <script>
+    let flippedCount = 0;
+    const totalCards = 8;
+
+    // Create floating hearts
+    function createFloatingHearts() {
+      const heartsContainer = document.getElementById('floating-hearts');
+      const hearts = ['💖', '💝', '💕', '💗', '💘'];
+      
+      setInterval(() => {
+        if (document.querySelectorAll('.heart').length < 10) {
+          const heart = document.createElement('div');
+          heart.className = 'heart';
+          heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+          heart.style.left = Math.random() * 100 + '%';
+          heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+          heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+          heartsContainer.appendChild(heart);
+          
+          setTimeout(() => {
+            if (heart.parentNode) {
+              heart.parentNode.removeChild(heart);
+            }
+          }, 20000);
+        }
+      }, 3000);
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const progressFill = document.getElementById('progress-fill');
+      const percentage = (flippedCount / totalCards) * 100;
+      progressFill.style.width = percentage + '%';
+    }
+
+    // Flip individual card
+    function flipCard(card) {
+      const wasFlipped = card.classList.contains('flipped');
+      card.classList.toggle('flipped');
+      
+      if (!wasFlipped) {
+        flippedCount++;
+        // Create celebration effect
+        createCelebrationHearts(card);
+      } else {
+        flippedCount--;
+      }
+      
+      updateProgress();
+      
+      // Update aria-label
+      const noteNumber = Array.from(card.parentNode.children).indexOf(card) + 1;
+      if (card.classList.contains('flipped')) {
+        card.setAttribute('aria-label', `Love note ${noteNumber} - Message revealed. Click to hide.`);
+      } else {
+        card.setAttribute('aria-label', `Love note ${noteNumber} - Click or press Enter to reveal`);
+      }
+    }
+
+    // Create celebration hearts when card is flipped
+    function createCelebrationHearts(card) {
+      const rect = card.getBoundingClientRect();
+      const hearts = ['💖', '💕', '✨'];
+      
+      for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+          const heart = document.createElement('div');
+          heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+          heart.style.position = 'fixed';
+          heart.style.left = (rect.left + rect.width/2) + 'px';
+          heart.style.top = (rect.top + rect.height/2) + 'px';
+          heart.style.fontSize = '20px';
+          heart.style.pointerEvents = 'none';
+          heart.style.zIndex = '1000';
+          heart.style.animation = `celebrationHeart 1.5s ease-out forwards`;
+          
+          document.body.appendChild(heart);
+          
+          setTimeout(() => {
+            if (heart.parentNode) {
+              heart.parentNode.removeChild(heart);
+            }
+          }, 1500);
+        }, i * 100);
+      }
+    }
+
+    // Add celebration heart animation
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes celebrationHeart {
+        0% {
+          transform: scale(0) rotate(0deg);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.2) rotate(180deg);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(0) rotate(360deg) translateY(-50px);
+          opacity: 0;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Flip all cards
+    function flipAllCards() {
+      const cards = document.querySelectorAll('.flip-card');
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          if (!card.classList.contains('flipped')) {
+            flipCard(card);
+          }
+        }, index * 200);
+      });
+    }
+
+    // Reset all cards
+    function resetAllCards() {
+      const cards = document.querySelectorAll('.flip-card');
+      flippedCount = 0;
+      cards.forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.remove('flipped');
+          const noteNumber = index + 1;
+          card.setAttribute('aria-label', `Love note ${noteNumber} - Click or press Enter to reveal`);
+        }, index * 100);
+      });
+      updateProgress();
+    }
+
+    // Play sequence
+    async function playSequence() {
+      resetAllCards();
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      const cards = document.querySelectorAll('.flip-card');
+      for (let i = 0; i < cards.length; i++) {
+        await new Promise(resolve => setTimeout(resolve, 800));
+        flipCard(cards[i]);
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      }
+    }
+
+    // Keyboard navigation
+    function handleKeyPress(event, card) {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        flipCard(card);
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      createFloatingHearts();
+      updateProgress();
+      
+      // Add keyboard navigation for arrow keys
+      document.addEventListener('keydown', function(event) {
+        const cards = Array.from(document.querySelectorAll('.flip-card'));
+        const focused = document.activeElement;
+        const currentIndex = cards.indexOf(focused);
+        
+        if (currentIndex === -1) return;
+        
+        let nextIndex;
+        switch(event.key) {
+          case 'ArrowRight':
+          case 'ArrowDown':
+            nextIndex = (currentIndex + 1) % cards.length;
+            break;
+          case 'ArrowLeft':
+          case 'ArrowUp':
+            nextIndex = (currentIndex - 1 + cards.length) % cards.length;
+            break;
+          default:
+            return;
+        }
+        
+        event.preventDefault();
+        cards[nextIndex].focus();
+      });
+    });
+  </script>
+</body>
+</html>
