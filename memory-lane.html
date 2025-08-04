@@ -2,319 +2,413 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=820, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Happy 18th Birthday Shreeya</title>
+  <meta name="viewport" content="width=1024, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <style>
-    body {
-      background: linear-gradient(150deg, #e3f0ff 0%, #fcd1e0 100%);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      overflow: hidden;
-      margin: 0;
+    html, body {
+      margin:0; padding:0; height:100%; width:100%;
+      overflow:hidden; background: linear-gradient(95deg, #fae1ff, #ddf4f8 70%);
       font-family: 'Quicksand', 'Segoe UI', sans-serif;
     }
-    .animation-stage {
-      width: 450px;
-      height: 600px;
+    body {
+      height:100vh; width:100vw;
+      display: flex; align-items:center; justify-content:center;
+      flex-direction: row;
+      min-width:100vw; min-height:100vh;
+    }
+    .landscape-container {
+      width:900px;
+      height:580px;
+      background: rgba(255,255,255,0.72);
+      border-radius:40px;
+      box-shadow: 0 8px 36px 0 #ffd8f755, 0 2px 12px #b076d844;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
       position: relative;
+      overflow: hidden;
+      flex-direction: row;
+    }
+    /* VISUAL AREA */
+    .scene {
+      position: relative;
+      width: 56%;
+      height: 100%;
+      min-width: 450px;
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      margin-bottom: 20px;
-      background: rgba(255,255,255,0.65);
-      border-radius: 34px;
-      box-shadow: 0 6px 32px rgba(64,64,100,.09);
+      background:linear-gradient(0deg, #d7fced 8%, rgba(255,255,255,0.6) 100%);
+      overflow: visible;
+      border-radius: 37px 0 0 37px;
     }
-    /* Seed Animation */
-    .seed {
-      width: 24px;
-      height: 38px;
-      background: radial-gradient(circle at 30% 50%, #aab44b 80%, #917433 100%);
-      border-radius: 60% 70% 60% 80%;
-      box-shadow: 0 4px 6px rgba(50,30,10,0.14);
+    /* Visual ground */
+    .ground {
       position: absolute;
-      left: 50%;
-      bottom: 60px;
-      transform: translateX(-50%) scale(1);
-      opacity: 0;
-      animation: seed-pop 1.3s .3s forwards;
-      z-index: 3;
+      bottom: -7px; left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      height: 95px;
+      background: radial-gradient(circle at 54% 24%, #Cdec92 59%, #7de893 100%);
+      border-radius: 47% 55% 90% 80%/65%;
+      z-index: 0;
+    }
+    /* Seed */
+    .seed {
+      position: absolute;
+      bottom: 126px; left: 50%;
+      transform: translate(-50%,0) scale(1);
+      width: 28px; height: 44px;
+      background: radial-gradient(circle at 40% 60%, #dbd861 85%, #ae8e3a 100%);
+      border-radius: 60% 80% 70% 75%;
+      opacity: 0; z-index: 3;
+      box-shadow: 0 4px 9px #ccbe4e87;
+      animation: seed-pop 1.1s 0.28s forwards;
     }
     @keyframes seed-pop {
-      0% { transform: translateX(-50%) scale(.36) rotate(-30deg); opacity: 0; }
-      30% { opacity: 1;}
-      60% { transform: translateX(-50%) scale(1.28) rotate(10deg); }
-      80% { transform: translateX(-50%) scale(.98) rotate(-2deg);}
-      100% { transform: translateX(-50%) scale(1) rotate(0); opacity: 1;}
+      0%   {opacity:0; transform:translate(-50%,0) scale(0.6);}
+      35%  {opacity:1;}
+      80%  {transform:translate(-50%,0) scale(1.16);}
+      100% {opacity:1; transform:translate(-50%,0) scale(1);}
     }
-    /* Tree Trunk and growth */
+    /* Trunk Animation (wavy) */
     .trunk {
       position: absolute;
       left: 50%;
-      bottom: 77px;
-      width: 13px;
+      bottom: 168px;
+      width: 19px;
       height: 0;
-      background: linear-gradient(180deg, #836639 60%, #655329 100%);
-      border-radius: 9px;
-      transform: translateX(-50%);
+      background: linear-gradient(180deg, #a17643 60%, #95693e 100%);
+      border-radius: 19px 20px 22px 18px;
       z-index: 2;
-      opacity: 0;
-      animation: trunk-grow 1.3s 1.1s forwards;
+      transform:translateX(-50%);
+      opacity:0;
+      animation: trunk-grow 1.3s 0.8s forwards;
     }
     @keyframes trunk-grow {
-      0% { height: 0; opacity: 0; }
-      20% { opacity: 1;}
-      100% { height: 120px; opacity: 1; }
+      0% {height: 0; opacity:0;}
+      30% {opacity:1;}
+      80% {height: 170px;}
+      100% {height: 170px; opacity:1;}
     }
+    /* Wavy trunk lines (simulate bends) */
+    .trunk:after {
+      content: "";
+      position: absolute;
+      width: 7px; left: 6px; top:10px;
+      height: 162px;
+      border-radius: 7px;
+      background:
+        repeating-linear-gradient(0.62turn, #deb9b0 12px, #a17643 19px, transparent 22px),
+        repeating-linear-gradient(183deg, #deb593 8px, #a17643 22px,transparent 27px);
+      opacity: .19;
+      z-index: 2;
+      pointer-events: none;
+    }
+    /* Branches - animated */
     .branch {
       position: absolute;
+      width: 11px;
       height: 0;
-      width: 8px;
-      background: linear-gradient(90deg, #9db452 80%, #dda366 100%);
-      border-radius: 12px;
-      bottom: 160px;
-      left: 50%;
+      border-radius: 13px 14px 17px 10px;
+      background: linear-gradient(92deg, #b5bd74 60%, #8cb859 100%);
       opacity: 0;
-      z-index: 2;
+      bottom: 315px; left: 47.4%;
     }
     .branch.left {
-      transform: translate(-110px, 0) rotate(-24deg) scaleX(0);
-      animation: branch-grow-left 0.85s 2.1s forwards;
+      transform: rotate(-27deg) scaleX(0.9);
+      animation: branch-gleft 0.85s 2.2s forwards;
     }
-    @keyframes branch-grow-left {
-      0% { height: 0; opacity: 0; transform: translate(-110px,0) rotate(-12deg) scaleX(0);}
-      40% { opacity: 1;}
-      100% { height: 64px; opacity: 1; transform: translate(-110px,-36px) rotate(-27deg) scaleX(1);}
+    @keyframes branch-gleft {
+      0% {height: 0; opacity: 0;}
+      80% {opacity: 1;}
+      100% {height: 92px; opacity:1;}
     }
     .branch.right {
-      transform: translate(90px, 0) rotate(18deg) scaleX(0);
-      animation: branch-grow-right 0.9s 2.3s forwards;
+      left: 56.3%;
+      transform: rotate(28deg) scaleX(1.02);
+      animation: branch-gright 0.8s 2.4s forwards;
     }
-    @keyframes branch-grow-right {
-      0% { height: 0; opacity: 0; transform: translate(90px,0) rotate(12deg) scaleX(0);}
-      40% { opacity: 1;}
-      100% { height: 45px; opacity: 1; transform: translate(90px,-25px) rotate(24deg) scaleX(1);}
+    @keyframes branch-gright {
+      0% {height: 0; opacity:0;}
+      80% {opacity: 1;}
+      100% {height: 82px; opacity: 1;}
     }
-    /* Tree top */
+    /* tree leaves animated burst in */
+    .leaf {
+      position: absolute;
+      background: radial-gradient(circle at 57% 43%, #caffb7 70%, #6fcf97 100%);
+      border-radius: 56% 49% 61% 71%;
+      width: 39px; height: 32px;
+      opacity: 0; scale: 0.2;
+      z-index: 6;
+    }
+    .leaf.leaf1 { top: 171px; left: 52.5%; animation: leaf-appear 0.55s 2.7s forwards;}
+    .leaf.leaf2 { top: 120px; left:49.2%; animation: leaf-appear 0.7s 3s forwards; background: radial-gradient(circle,#ffedc5 44%,#dbb459 96%);}
+    .leaf.leaf3 { top:135px; left:56.1%; animation: leaf-appear 0.58s 3.17s forwards;}
+    .leaf.leaf4 { top:97px; left:54%; animation: leaf-appear 0.61s 3.3s forwards;}
+    .leaf.leaf5 { top:148px; left:44%; animation: leaf-appear 0.75s 3.47s forwards;}
+    @keyframes leaf-appear{
+      0% {opacity:0; scale:0.18;}
+      60%{opacity:1; scale:1.16;}
+      100%{opacity:1; scale:1;}
+    }
+    /* Tree-top round-head */
     .tree-top {
-      position: absolute;
-      left: 50%;
-      bottom: 190px;
-      width: 125px;
-      height: 80px;
-      border-radius: 90px 100px 90px 130px;
-      background: radial-gradient(circle at 65% 45%, #84b867 70%, #67995c 100%);
-      transform: translate(-50%, 0) scale(0.1);
+      position: absolute; left: 50%; bottom:347px;
+      width:122px; height: 81px;
+      border-radius: 55% 60% 68% 55%/60% 49% 69% 55%;
+      background: radial-gradient(circle at 44% 53%, #c7e487 81%, #97f68b 100%);
+      box-shadow: 0 0 30px #f0fff5bc;
+      transform: translate(-50%,0) scale(0.15);
       opacity: 0;
-      box-shadow: 0 0 26px #97e177c8;
-      z-index: 4;
-      animation: treetop-pop 0.9s 2.9s forwards;
+      z-index: 7;
+      animation: top-bloom 1s 3.85s forwards;
     }
-    @keyframes treetop-pop {
-      0% { transform: translate(-50%,0) scale(0.15); opacity: 0;}
-      60% {opacity: 1;}
-      100% { transform: translate(-50%,0) scale(1); opacity: 1; }
+    @keyframes top-bloom{
+      0%{opacity:0;}
+      60%{opacity:1;}
+      100%{opacity:1; scale:1;}
     }
-
-    /* Flower base and petal */
+    /* FLOWER animations */
     .flower-stem {
-      position: absolute;
-      left: 50%;
-      bottom: 250px;
-      width: 8px;
-      height: 0;
-      background: linear-gradient(180deg, #a5d483 65%, #6bba57 100%);
-      border-radius: 12px;
-      transform: translateX(-50%);
-      z-index: 4;
-      opacity: 0;
-      animation: flowerstem-grow 0.7s 3.5s forwards;
+      position: absolute; left:54.5%; bottom:405px;
+      width:8.5px; height:0;
+      background: linear-gradient(180deg,#a5d483 65%,#6bba57 100%);
+      border-radius:12px;
+      z-index:7; opacity:0;
+      animation: flowerstem-grow .7s 4.3s forwards;
     }
-    @keyframes flowerstem-grow {
-      0% {height: 0;opacity:0;}
-      35% {opacity:1;}
-      100% {height: 80px; opacity:1;}
+    @keyframes flowerstem-grow{
+      0%{height:0;opacity:0;}
+      35%{opacity:1;}
+      100%{height:86px;opacity:1;}
     }
     .flower {
       position: absolute;
-      left: 50%;
-      bottom: 320px;
-      width: 70px;
-      height: 70px;
-      opacity: 0;
-      transform: translate(-50%,0) scale(0.12) rotate(-30deg);
-      animation: flower-pop 1.3s 4.1s forwards;
-      z-index: 11;
+      left: 54.6%; bottom:486px;
+      width:57px; height:57px;
+      opacity:0; scale:0.15; z-index:13;
+      animation: flower-appear 1.2s 5.05s forwards;
     }
-    @keyframes flower-pop {
-      0% {opacity:0;transform:translate(-50%,0) scale(.12) rotate(-30deg);}
-      40%{opacity:1;}
-      80%{transform:translate(-50%,0) scale(1.14) rotate(5deg);}
-      100%{opacity:1;transform:translate(-50%,0) scale(1) rotate(0);}
+    @keyframes flower-appear {
+      0%{opacity:0;scale:0.11;}
+      60%{opacity:1; scale:1.12;}
+      100%{opacity:1; scale:1;}
     }
+    /* flower petals - animate each with a delay for burst effect */
     .petal {
-      position: absolute;
-      width: 30px;
-      height: 48px;
-      border-radius: 60% 60% 80% 80%;
-      background: radial-gradient(ellipse at 30% 20%, #ffb8dc 70%, #ff5ec8 100%);
-      z-index: 1;
-      opacity: 0.93;
-      transform-origin: 50% 83%;
+      position:absolute; width:24px; height:36px;
+      background:radial-gradient(circle at 38% 22%, #ffe2fa 82%, #fe67c5 100%);
+      border-radius: 67% 75% 100% 80%;
+      opacity:0; scale:.15;
+      transform-origin: bottom center;
+      z-index:1;
     }
-    .petal.p1 { top: 7px; left: 20px; transform: rotate(-15deg);}
-    .petal.p2 { top: 4px; left: 12px; transform: rotate(-47deg);}
-    .petal.p3 { top: 8px; left: 9px; transform: rotate(-75deg);}
-    .petal.p4 { top: 14px; left: 35px; transform: rotate(23deg);}
-    .petal.p5 { top: 32px; left: 21px; transform: rotate(62deg);}
-    .petal.p6 { top: 18px; left: 51px; transform: rotate(70deg);}
-    .flower-center {
-      position: absolute;
-      top: 18px;
-      left: 20px;
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 48% 55%, #fffdbe 77%, #f7c052 100%);
-      z-index: 5;
-      box-shadow: 0 2px 13px #fffeb85a;
+    .petal.p1 { left:17px;top:3px; transform:rotate(-20deg);
+      animation:petal-bloom 0.64s 5.3s forwards;}
+    .petal.p2 { left:9px;top:14px; transform:rotate(-64deg);
+      animation:petal-bloom 0.76s 5.44s forwards;}
+    .petal.p3 { left:28px;top:11px; transform:rotate(11deg);
+      animation:petal-bloom 0.73s 5.57s forwards;}
+    .petal.p4 { left:33px;top:19px; transform:rotate(37deg);
+      animation:petal-bloom 0.69s 5.65s forwards;}
+    .petal.p5 { left:22px;top:20px; transform:rotate(93deg);
+      animation:petal-bloom 0.84s 5.75s forwards;}
+    .petal.p6 { left:9px;top:24px; transform:rotate(-98deg);
+      animation:petal-bloom 0.91s 5.82s forwards;}
+    @keyframes petal-bloom{
+      0%{opacity:0; scale:0.13;}
+      75%{opacity:1; scale:1.13;}
+      100%{opacity:1; scale:1;}
+    }
+    .flower-center{
+      position:absolute;top:15px;left:17.5px;width:22px;height:22px;
+      border-radius:50%; background:radial-gradient(circle at 40% 55%, #fffbb4 77%, #ffb733 100%);
+      z-index:5; box-shadow:0 2px 13px #f7eeb85a;
+    }
+    /* PETALS fall animation */
+    .petal-fall {
+      position:absolute; left: 54.6%; top:400px; width:17px; height:17px;
+      border-radius: 60% 80% 90% 80%;
+      background:radial-gradient(circle at 55% 35%, #f7a3e7 44%, #fe67c5 100%);
+      opacity:0; pointer-events:none;
+      animation: fall-petal 2.7s 7.2s forwards;
+    }
+    @keyframes fall-petal {
+      0%{opacity:0;top:400px;left:52%;}
+      5%{opacity:.83;}
+      40%{top:480px; left:56%;}
+      80%{top:530px;left:53.5%;}
+      100%{opacity:0;top:560px;}
     }
 
-    /* Text Animation */
-    .message-box {
-      width: 90%;
-      max-width: 520px;
-      min-height: 60px;
-      text-align: center;
-      font-size: 1.14rem;
-      font-weight: 500;
-      color: #c75094;
-      margin: 12px auto;
-      border-radius: 14px;
-      background: rgba(255,255,255,0.65);
-      padding: 27px 32px 28px 32px;
-      box-shadow: 0 2px 12px rgba(96,48,46,0.09);
-      opacity: 0;
-      transition: opacity 1s cubic-bezier(.45,1,0,1.45);
+    /* MESSAGES - Sentence Carousel */
+    .msg-area {
+      width: 42%;
+      padding: 38px 28px;
+      min-height: 108px;
       display: flex;
+      align-items:center; justify-content:center;
       flex-direction: column;
-      align-items: center;
+      background: rgba(255,255,255,0.91);
+      border-radius: 0 34px 34px 0;
+      z-index:15;
+      box-shadow: 0 2px 16px #f7bbfa56;
+      font-size: 1.28rem;
+      font-weight: 500;
+      color: #b4428a;
+      overflow: hidden;
     }
-    .message-box.visible {
-      opacity: 1;
-    }
-    .birthday-sentence {
+    .carousel-sentence {
       opacity: 0;
-      animation: text-in .9s forwards;
-    }
-    @keyframes text-in {
-      0% {opacity:0;transform:translateY(36px) scale(.94);}
-      55% {opacity:1;}
-      100% {opacity:1;transform:translateY(0) scale(1);}
-    }
-    .birthday-sentence {
-      margin: 13px 0;
-      font-size: 1.22rem;
-      line-height: 1.38;
-      color: #a0227c;
-      letter-spacing: 0.03em;
-      font-family: 'Quicksand', 'Segoe UI', sans-serif;
-      font-weight: 600;
-      text-shadow: 0 5px 28px #f7e1f9cc;
-      background: linear-gradient(90deg, #e561a9, #f8c9e2 65%, #7e4df1 100%);
+      position: absolute;
+      width: 90%;
+      left: 5%; right:5%;
+      top: 40%;
+      font-weight: 700;
+      font-size: 1.25rem;
+      text-shadow: 0px 8px 28px #ffe0ffcc;
+      background: linear-gradient(90deg, #9617a2 10%, #e337a9 52%, #fbe6f8 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      will-change: transform, opacity;
+      transform: translateY(80px) scale(.93);
     }
-    /* Stylish Back Button */
+    .carousel-sentence.in {
+      animation: sentenceIn 0.85s cubic-bezier(.6,1.7,.33,1.14) forwards;
+      z-index:20;
+    }
+    @keyframes sentenceIn {
+      0% {opacity:0; transform:translateY(80px) scale(.94);}
+      80%{opacity:1;}
+      100% {opacity:1; transform:translateY(0) scale(1);}
+    }
+    .carousel-sentence.out {
+      animation: sentenceOut 0.72s cubic-bezier(.65,0,.9,1.4) forwards;
+      z-index:15;
+    }
+    @keyframes sentenceOut {
+      0%{opacity:1; transform:translateY(0) scale(1);}
+      90%{opacity:.1;transform:translateY(-60px) scale(.97);}
+      100% {opacity:0;transform:translateY(-100px) scale(.92);}
+    }
+
+    /* Back Button - float, animate in */
     .back-btn {
-      position: fixed;
-      bottom: 47px;
-      right: 60px;
-      z-index: 100;
-      background: linear-gradient(120deg, #fc93be 25%, #b86ddd 100%);
-      color: #fff;
-      font-family: 'Quicksand', 'Segoe UI', sans-serif;
-      font-size: 1.2rem;
-      letter-spacing: .05em;
-      font-weight: 600;
-      box-shadow: 0 2px 16px #f7bbfa83;
-      border: 0;
-      outline: none;
-      border-radius: 26px;
-      padding: 16px 36px;
+      position: absolute; right: 38px; bottom:38px; z-index:100;
+      background: linear-gradient(102deg, #fc93be 25%, #b86ddd 100%);
+      color: #fff; font-family: 'Quicksand', 'Segoe UI', sans-serif;
+      font-size: 1.11rem; letter-spacing: .07em;
+      font-weight: 600; box-shadow: 0 2px 16px #f7bbfa83;
+      border: 0; outline: none;
+      border-radius: 26px; padding: 16px 36px;
       cursor: pointer;
-      opacity: 0;
-      pointer-events: none;
+      opacity: 0; pointer-events: none;
       transition: opacity 0.8s cubic-bezier(.34,1,.6,1.14);
       text-shadow: 0 2px 12px #d584f8aa;
+      filter: drop-shadow(0 0 18px #cfb4e6cc);
+      transform: translateY(33px) scale(.98);
     }
     .back-btn.visible {
       opacity: 1;
       pointer-events: auto;
-      transition-delay: .12s;
+      transition-delay: .14s;
+      transform:translateY(0) scale(1.05);
+      animation: btn-pop 1.1s 0.7s cubic-bezier(.44,1.6,.39,1.1) forwards;
     }
-    /* Fancy */
-    @media (max-width: 600px) {
-      .animation-stage { width: 97vw; height: 75vw; min-height: 420px;}
+    @keyframes btn-pop{
+      0%{opacity:0; transform:translateY(30px) scale(.95);}
+      35%{opacity:.9;}
+      100%{opacity:1;transform:translateY(0) scale(1.05);}
+    }
+    @media (max-width:1024px) {
+      .landscape-container {width:98vw;min-width:97vw; box-sizing:border-box;}
+      .scene{min-width:37vw;}
+      .msg-area{min-width:36vw;}
+    }
+    @media (max-width:830px) {
+      .landscape-container{flex-direction:column; min-width:99vw;border-radius:38px;}
+      .scene, .msg-area {width:99vw; max-width:99vw; border-radius:40px;}
     }
   </style>
 </head>
 <body>
-  <div class="animation-stage" id="animStage">
-    <div class="seed"></div>
-    <div class="trunk"></div>
-    <div class="branch left"></div>
-    <div class="branch right"></div>
-    <div class="tree-top"></div>
-    <div class="flower-stem"></div>
-    <div class="flower">
-      <div class="petal p1"></div>
-      <div class="petal p2"></div>
-      <div class="petal p3"></div>
-      <div class="petal p4"></div>
-      <div class="petal p5"></div>
-      <div class="petal p6"></div>
-      <div class="flower-center"></div>
+  <div class="landscape-container">
+    <div class="scene">
+      <div class="ground"></div>
+      <div class="seed"></div>
+      <div class="trunk"></div>
+      <div class="branch left"></div>
+      <div class="branch right"></div>
+      <div class="leaf leaf1"></div>
+      <div class="leaf leaf2"></div>
+      <div class="leaf leaf3"></div>
+      <div class="leaf leaf4"></div>
+      <div class="leaf leaf5"></div>
+      <div class="tree-top"></div>
+      <div class="flower-stem"></div>
+      <div class="flower">
+        <div class="petal p1"></div>
+        <div class="petal p2"></div>
+        <div class="petal p3"></div>
+        <div class="petal p4"></div>
+        <div class="petal p5"></div>
+        <div class="petal p6"></div>
+        <div class="flower-center"></div>
+      </div>
+      <div class="petal-fall" style="animation-delay:7.25s;"></div>
+      <div class="petal-fall" style="left:56.9%;animation-delay:7.63s;"></div>
+      <div class="petal-fall" style="left:53.1%;animation-delay:8.03s;"></div>
     </div>
+    <div class="msg-area" id="msgArea">
+      <!-- SENTENCES animate in/out here -->
+    </div>
+    <button class="back-btn" id="backBTN" onclick="window.location.href='https://dsgssg.github.io/sb/page3.html'">← Back</button>
   </div>
-  <div class="message-box" id="msgBox">
-    <!-- Sentences will appear here -->
-  </div>
-
-  <button class="back-btn" id="backBTN" onclick="window.location.href='https://dsgssg.github.io/sb/page3.html'">← Back</button>
-
   <script>
-    // Animation sequence management
     const sentences = [
       "Happy 18th Birthday Shreeya darling",
       "I hope I will be next to you, the next year",
-      "and I promise I will be your early morning sunshine,",
+      "and I promise I will be your early morning sunshine",
       "enjoy your day with lots of love",
-      "bubu"
+      "bohot sari memories banani hai abhi 👀"
+      "your naughty bubu"
     ];
-    function wait(ms) { return new Promise(r=>setTimeout(r,ms)); }
-    async function showBirthdayAnimation() {
-      // Wait till all drawing animations finish
-      await wait(6000);
-      const msgBox = document.getElementById('msgBox');
-      msgBox.classList.add('visible');
-      for (let i=0;i<sentences.length;i++) {
-        const p = document.createElement('span');
-        p.className = 'birthday-sentence';
-        p.innerText = sentences[i];
-        p.style.animationDelay = '.1s';
-        msgBox.appendChild(p);
-        await wait(1200 + sentences[i].length*8);
-        p.style.opacity = 1;
+    // Sentence in/out durations
+    const inDur = 950, holdDur = 1800, outDur = 680, sentenceGap = 110;
+    async function runSentenceCarousel() {
+      const msgArea = document.getElementById('msgArea');
+      for (let i=0; i<sentences.length; i++) {
+        const el = document.createElement('span');
+        el.className = 'carousel-sentence in';
+        el.innerText = sentences[i];
+        msgArea.innerHTML = "";
+        msgArea.appendChild(el);
+        await new Promise(r=>setTimeout(r, inDur+holdDur));
+        el.classList.remove('in');
+        el.classList.add('out');
+        await new Promise(r=>setTimeout(r, outDur+sentenceGap));
+        msgArea.innerHTML = "";
       }
-      // Show back button
-      await wait(800);
+      // At the end, show all sentences stacked (optional, or repeat carousel).
+      msgArea.innerHTML = "";
+      // Optionally, reveal each one with fade-in.
+      for(const sent of sentences){
+        const el = document.createElement('span');
+        el.className = 'carousel-sentence in';
+        el.style.animation = "sentenceIn 1s forwards";
+        el.style.position = 'static';
+        el.innerText = sent;
+        msgArea.appendChild(el);
+        await new Promise(r=>setTimeout(r, 680));
+      }
+      // Reveal back button
       document.getElementById('backBTN').classList.add('visible');
     }
-    window.onload = showBirthdayAnimation;
+    window.onload = () => {
+      setTimeout(runSentenceCarousel, 7.1*1000); // wait for all SVG/CSS animations
+    };
   </script>
 </body>
 </html>
